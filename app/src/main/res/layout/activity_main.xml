@@ -48,7 +48,8 @@
         app:layout_constraintTop_toBottomOf="@id/loginButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/purple_500"/>
 
     <!-- Botón de Alta usuario, doble de alto (96dp) y anclado abajo -->
     <Button
@@ -57,7 +58,7 @@
         android:layout_height="96dp"
         android:text="Alta usuario"
         android:textStyle="bold"
-        android:backgroundTint="@color/purple_500"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

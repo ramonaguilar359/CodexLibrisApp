@@ -1,6 +1,7 @@
 package com.example.codexlibris;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -72,13 +73,25 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "Código de respuesta: " + response.code());
 
                 if (response.isSuccessful() && response.body() != null) {
+
+                    Log.d(TAG, "Respuesta de la API: " + response.body().toString());
+
                     String token = response.body().getToken();
                     Log.d(TAG, "Token recibido: " + token);
 
                     // Guardar el token en SharedPreferences
-                    sharedPreferences.edit().putString("jwt_token", token).apply();
+                    sharedPreferences.edit()
+                            .putString("jwt_token", token)
+                            .putInt("role_id", response.body().getRoleId())
+                            .apply();
 
                     Toast.makeText(MainActivity.this, "Login exitoso!", Toast.LENGTH_SHORT).show();
+
+                    // Saltar a la pantalla del menú principal
+                    Intent intent = new Intent(MainActivity.this, MainMenuActivity.class);
+                    startActivity(intent);
+                    finish();
+
                 } else {
                     Log.e(TAG, "Error en login: Código HTTP " + response.code());
                     try {

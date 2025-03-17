@@ -8,4 +8,15 @@ public class LoginResponse {
     public String getToken() {
         return token;
     }
+
+    public int getRoleId() { return roleId; }
+
+    @Override
+    public String toString() {
+        return "LoginResponse{" +
+                "token='" + token + '\'' +
+                ", username='" + username + '\'' +
+                ", roleId=" + roleId +
+                '}';
+    }
 }
