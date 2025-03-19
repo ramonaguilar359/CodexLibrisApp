@@ -34,6 +34,7 @@
 
 ## Estructura del Projecte
 
+```bash
 CodexLibris/ 
 ├── app/ 
 │ ├── src/ 
