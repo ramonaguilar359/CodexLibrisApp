@@ -35,32 +35,29 @@
 ## Estructura del Projecte
 
 ```bash
-CodexLibris/ 
-├── app/ 
-│ ├── src/ 
-│ │ ├── main/ 
-│ │ │ ├── java/com/example/codexlibris/ 
-│ │ │ │ ├── SplashActivity.java // Pantalla Splash 
-│ │ │ │ ├── MainActivity.java // Pantalla de Login 
-│ │ │ │ ├── MainMenuActivity.java // Menú Principal 
-│ │ │ │ ├── RetrofitClient.java // Configuració de Retrofit 
-│ │ │ │ ├── ApiService.java // Interfície de l'API REST 
-│ │ │ │ ├── LoginRequest.java // Model de petició de login 
-│ │ │ │ └── LoginResponse.java // Model de resposta de login 
-│ │ │ └── res/ 
-│ │ │ ├── layout/ 
-│ │ │ │ ├── activity_splash.xml // Layout de la Splash Screen 
-│ │ │ │ ├── activity_main.xml // Layout del Login 
-│ │ │ │ └── activity_main_menu.xml // Layout del Menú Principal 
-│ │ │ └── values/ 
-│ │ │ └── colors.xml // Definició de colors 
-│ │ └── androidTest/ // Proves d'Integració 
-│ └── build.gradle 
-└── README.md
-
-
----
-
+  CodexLibris/ 
+  ├── app/ 
+  │ ├── src/ 
+  │ │ ├── main/ 
+  │ │ │ ├── java/com/example/codexlibris/ 
+  │ │ │ │ ├── SplashActivity.java // Pantalla Splash 
+  │ │ │ │ ├── MainActivity.java // Pantalla de Login 
+  │ │ │ │ ├── MainMenuActivity.java // Menú Principal 
+  │ │ │ │ ├── RetrofitClient.java // Configuració de Retrofit 
+  │ │ │ │ ├── ApiService.java // Interfície de l'API REST 
+  │ │ │ │ ├── LoginRequest.java // Model de petició de login 
+  │ │ │ │ └── LoginResponse.java // Model de resposta de login 
+  │ │ │ └── res/ 
+  │ │ │ ├── layout/ 
+  │ │ │ │ ├── activity_splash.xml // Layout de la Splash Screen 
+  │ │ │ │ ├── activity_main.xml // Layout del Login 
+  │ │ │ │ └── activity_main_menu.xml // Layout del Menú Principal 
+  │ │ │ └── values/ 
+  │ │ │ └── colors.xml // Definició de colors 
+  │ │ └── androidTest/ // Proves d'Integració 
+  │ └── build.gradle 
+  └── README.md
+```
 ## Configuració i Execució
 
 1. **Clonar el repositori:**
