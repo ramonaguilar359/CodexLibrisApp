@@ -4,14 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -22,7 +24,7 @@ public class BooksManagementActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewBooks;
     private BooksAdapter booksAdapter;
-    private FloatingActionButton fabAddBook;
+    private ExtendedFloatingActionButton fabAddBook;
     private SharedPreferences sharedPreferences;
     private int roleId;
     private String token;
@@ -32,24 +34,29 @@ public class BooksManagementActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_books_management);
 
-        recyclerViewBooks = findViewById(R.id.recyclerViewBooks);
-        fabAddBook = findViewById(R.id.fabAddBook);
-
         // Recuperem les dades de sessió (token i roleId)
         sharedPreferences = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
         token = sharedPreferences.getString("jwt_token", null);
         roleId = sharedPreferences.getInt("role_id", -1);
 
-        // Mostrem el botó flotant només per a administradors (roleId == 1)
+        // Trobar les vistes
+        recyclerViewBooks = findViewById(R.id.recyclerViewBooks);
+        fabAddBook = findViewById(R.id.fabAddBook);
+
+        // Configurar el RecyclerView amb un LinearLayoutManager
+        recyclerViewBooks.setLayoutManager(new LinearLayoutManager(this));
+        // Assignem un adaptador buit inicialment
+        booksAdapter = new BooksAdapter(new ArrayList<>(), roleId, token);
+        recyclerViewBooks.setAdapter(booksAdapter);
+
+        // Mostrar el botó flotant només per a administradors (roleId == 1)
         if (roleId == 1) {
             fabAddBook.setVisibility(android.view.View.VISIBLE);
         } else {
             fabAddBook.setVisibility(android.view.View.GONE);
         }
 
-        recyclerViewBooks.setLayoutManager(new LinearLayoutManager(this));
-
-        // Botó flotant per crear un nou llibre (obrir Activity per crear llibre nou)
+        // Botó flotant per crear un nou llibre (obre NewBookActivity)
         fabAddBook.setOnClickListener(view -> {
             Intent intent = new Intent(BooksManagementActivity.this, NewBookActivity.class);
             startActivity(intent);
@@ -59,27 +66,42 @@ public class BooksManagementActivity extends AppCompatActivity {
     }
 
     private void carregarLlibres() {
+        sharedPreferences = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
+        token = sharedPreferences.getString("jwt_token", null);
+
+        if (token == null) {
+            Log.e("BooksManagement", "Token nul. No es pot carregar llibres.");
+            return;
+        }
+
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-        // Crida a l'endpoint GET /books
-        Call<List<Book>> call = apiService.getBooks();
+        Log.d("BooksManagement", "Cridant a getBooks amb token: Bearer " + token);
+        Call<List<Book>> call = apiService.getBooks("Bearer " + token);
+
+
+        Log.d("BooksManagement", "Cridant a getBooks amb token: Bearer " + token);
 
         call.enqueue(new Callback<List<Book>>() {
             @Override
             public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
+                Log.d("BooksManagement", "Resposta HTTP: " + response.code());
                 if (response.isSuccessful() && response.body() != null) {
                     List<Book> llibres = response.body();
+                    Log.d("BooksManagement", "Llibres rebuts: " + llibres.size());
                     booksAdapter = new BooksAdapter(llibres, roleId, token);
                     recyclerViewBooks.setAdapter(booksAdapter);
                 } else {
+                    Log.e("BooksManagement", "Error en la resposta: " + response.message());
                     Toast.makeText(BooksManagementActivity.this, "Error en carregar els llibres", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Book>> call, Throwable t) {
+                Log.e("BooksManagement", "Error de connexió: " + t.getMessage(), t);
                 Toast.makeText(BooksManagementActivity.this, "Error de connexió", Toast.LENGTH_SHORT).show();
             }
         });
     }
-}
 
+}

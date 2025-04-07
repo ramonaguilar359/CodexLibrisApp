@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,7 +15,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
     private TextView textWelcome;
-    private Button option1Button, option2Button, option3Button, option4Button, adminOptionButton, logoutButton;
+    private Button booksButton, logoutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +27,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
         // Referencias de la UI
         textWelcome = findViewById(R.id.textWelcome);
-        option1Button = findViewById(R.id.option1Button);
-        option2Button = findViewById(R.id.option2Button);
-        option3Button = findViewById(R.id.option3Button);
-        option4Button = findViewById(R.id.option4Button);
-        adminOptionButton = findViewById(R.id.adminOptionButton);
+        booksButton = findViewById(R.id.booksButton);
         logoutButton = findViewById(R.id.logoutButton);
 
         // Recuperar token y roleId (se asume que se han guardado en el login)
@@ -42,15 +39,27 @@ public class MainMenuActivity extends AppCompatActivity {
             textWelcome.setText("Benvingut! Token: " + token.substring(0, Math.min(token.length(), 10)) + "...");
         }
 
+        Log.d("BooksManagement", "Cridant a getBooks amb token: Bearer " + token);
+
+        // boto saltar a vista Gestió de Llibres
+        booksButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainMenuActivity.this, BooksManagementActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
         // Si el roleId es 1 (administrador), hacer visible la opción extra
-        if (roleId == 1) {
+        /* if (roleId == 1) {
             adminOptionButton.setVisibility(View.VISIBLE);
         } else {
             adminOptionButton.setVisibility(View.GONE);
-        }
+        } */
 
         // Asignar listeners para las opciones ficticias
-        option1Button.setOnClickListener(new View.OnClickListener() {
+        /* option1Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { Toast.makeText(MainMenuActivity.this, "Opción 1: Pròximament", Toast.LENGTH_SHORT).show(); }
         });
@@ -73,7 +82,7 @@ public class MainMenuActivity extends AppCompatActivity {
         adminOptionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { Toast.makeText(MainMenuActivity.this, "Opción Administrador: Pròximament", Toast.LENGTH_SHORT).show(); }
-        });
+        }); */
 
         // Acción de Logout: Borrar token y roleId, y redirigir al login
         logoutButton.setOnClickListener(new View.OnClickListener() {

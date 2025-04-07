@@ -45,6 +45,12 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
         return llibres.size();
     }
 
+    public void updateBooks(List<Book> newBooks) {
+        this.llibres.clear();
+        this.llibres.addAll(newBooks);
+        notifyDataSetChanged();
+    }
+
     class BookViewHolder extends RecyclerView.ViewHolder {
         TextView textTitle;
         Button btnViewDetail, btnEdit, btnDelete, btnReserve;

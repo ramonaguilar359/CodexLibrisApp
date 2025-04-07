@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "Intentando login con usuario: " + username);
 
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+
         LoginRequest request = new LoginRequest(username, password);
 
         Call<LoginResponse> call = apiService.login(request);

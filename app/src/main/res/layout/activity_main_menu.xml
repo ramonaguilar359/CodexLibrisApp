@@ -16,8 +16,23 @@
         android:gravity="center"
         android:layout_marginBottom="16dp" />
 
-    <!-- Opciones ficticias -->
     <Button
+        android:id="@+id/booksButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gestió de Llibres"
+        android:layout_marginTop="8dp" />
+
+    <!-- Botón de Logout -->
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:layout_marginTop="24dp" />
+
+    <!-- Opciones ficticias -->
+    <!-- Button
         android:id="@+id/option1Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,34 +46,21 @@
         android:layout_marginTop="8dp" />
 
     <Button
-        android:id="@+id/option3Button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Llibres"
-        android:layout_marginTop="8dp" />
-
-    <Button
         android:id="@+id/option4Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Esdeveniments"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp" /-->
 
     <!-- Botón exclusivo para administradores (inicialmente oculto) -->
-    <Button
+    <!--Button
         android:id="@+id/adminOptionButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Eines administratives"
         android:layout_marginTop="8dp"
-        android:visibility="gone" />
+        android:visibility="gone" /-->
 
-    <!-- Botón de Logout -->
-    <Button
-        android:id="@+id/logoutButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        android:layout_marginTop="24dp" />
+
 
 </LinearLayout>
