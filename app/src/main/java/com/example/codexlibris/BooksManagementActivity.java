@@ -104,4 +104,12 @@ public class BooksManagementActivity extends AppCompatActivity {
         });
     }
 
+    // perquè no funcionen els botons de l'emulador?
+    /*
+    @Override
+    public void onBackPressed() {
+        Log.d("BookDetail", "S'ha premut el botó enrere");
+        super.onBackPressed();
+    }
+    */
 }

@@ -1,6 +1,7 @@
 package com.example.codexlibris;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,9 +69,11 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
             textTitle.setText(llibre.getTitle());
 
             // Tots poden veure el detall del llibre
-            btnViewDetail.setOnClickListener(v ->
-                    Toast.makeText(context, "Detall del llibre: " + llibre.getTitle(), Toast.LENGTH_SHORT).show()
-            );
+            btnViewDetail.setOnClickListener(v -> {
+                Intent intent = new Intent(itemView.getContext(), BookDetailActivity.class);
+                intent.putExtra("BOOK_ID", llibre.getId());
+                itemView.getContext().startActivity(intent);
+            });
 
             if (roleId == 1) {
                 // Administrador: es mostra editar i esborrar
@@ -96,4 +99,5 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
             }
         }
     }
+
 }

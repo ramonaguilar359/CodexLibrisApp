@@ -20,12 +20,6 @@ public interface ApiService {
     Call<List<Book>> getBooks(@Header("Authorization") String authHeader);
 
     @GET("/books/{id}")
-    Call<Book> getBookById(@Path("id") int id);
-
-    @POST("/books")
-    Call<Book> createBook(@Body Book book);
-
-    @PUT("/books/{id}")
-    Call<Book> updateBook(@Path("id") int id, @Body Book book);
+    Call<Book> getBookById(@Header("Authorization") String token, @Path("id") int id);
 }
 
