@@ -30,6 +30,8 @@
         <activity android:name=".MainMenuActivity" />
         <activity android:name=".BooksManagementActivity" />
         <activity android:name=".BookDetailActivity" />
+        <activity android:name=".NewBookActivity" />
+        <activity android:name=".EditBookActivity" />
 
     </application>
 

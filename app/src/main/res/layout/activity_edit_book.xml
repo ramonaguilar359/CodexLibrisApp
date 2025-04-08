@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:divider="?android:attr/dividerVertical"
+        android:showDividers="middle"
+        android:dividerPadding="8dp">
+
+        <!-- Títol principal -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Editar llibre"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Títol del llibre -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Títol"
+            android:textStyle="bold" />
+        <EditText
+            android:id="@+id/editTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Escriu el títol"
+            android:inputType="text" />
+
+        <!-- ISBN -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ISBN"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp" />
+        <EditText
+            android:id="@+id/editISBN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Codi ISBN"
+            android:inputType="text" />
+
+        <!-- Autor -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Autor"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp" />
+        <Spinner
+            android:id="@+id/spinnerAuthor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Gènere -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gènere"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp" />
+        <Spinner
+            android:id="@+id/spinnerGenre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Data publicació -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Data de publicació"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp" />
+        <TextView
+            android:id="@+id/textDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No seleccionada"
+            android:paddingBottom="4dp" />
+        <Button
+            android:id="@+id/btnSelectDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Seleccionar data" />
+
+        <!-- Disponibilitat -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Disponibilitat"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp" />
+        <Switch
+            android:id="@+id/switchAvailable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Disponible" />
+
+        <!-- Botó desar canvis -->
+        <Button
+            android:id="@+id/btnUpdateBook"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Desar canvis"
+            android:layout_marginTop="24dp" />
+    </LinearLayout>
+</ScrollView>
