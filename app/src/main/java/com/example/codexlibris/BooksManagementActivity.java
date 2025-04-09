@@ -1,5 +1,6 @@
 package com.example.codexlibris;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -58,12 +61,48 @@ public class BooksManagementActivity extends AppCompatActivity {
 
         // Botó flotant per crear un nou llibre (obre NewBookActivity)
         fabAddBook.setOnClickListener(view -> {
-            Intent intent = new Intent(BooksManagementActivity.this, NewBookActivity.class);
-            startActivity(intent);
+            Intent intent = new Intent(this, NewBookActivity.class);
+            startActivityForResult(intent, 1);
+
         });
+
+        String missatgeExit = getIntent().getStringExtra("missatgeExit");
+        if (missatgeExit != null) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Èxit")
+                    .setMessage(missatgeExit)
+                    .setPositiveButton("D'acord", null)
+                    .show();
+        }
+
 
         carregarLlibres();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        carregarLlibres();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+            String missatge = data.getStringExtra("missatgeExit");
+            if (missatge != null) {
+                new AlertDialog.Builder(this)
+                        .setTitle("Èxit")
+                        .setMessage(missatge)
+                        .setPositiveButton("D'acord", null)
+                        .show();
+                // I opcionalment tornar a carregar els llibres:
+                carregarLlibres();
+            }
+        }
+    }
+
 
     private void carregarLlibres() {
         sharedPreferences = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
@@ -87,6 +126,9 @@ public class BooksManagementActivity extends AppCompatActivity {
                 Log.d("BooksManagement", "Resposta HTTP: " + response.code());
                 if (response.isSuccessful() && response.body() != null) {
                     List<Book> llibres = response.body();
+
+                    Collections.reverse(llibres); // invertim la llista per veure primer el més recent
+
                     Log.d("BooksManagement", "Llibres rebuts: " + llibres.size());
                     booksAdapter = new BooksAdapter(llibres, roleId, token);
                     recyclerViewBooks.setAdapter(booksAdapter);

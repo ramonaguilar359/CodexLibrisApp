@@ -14,6 +14,14 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/textAvailability"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Disponible"
+        android:textStyle="italic"
+        android:layout_marginBottom="4dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +33,8 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Veure Detall" />
+            android:text="Detall"
+            android:layout_marginEnd="8dp" />
 
         <Button
             android:id="@+id/btnEdit"
@@ -33,7 +42,8 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Editar"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:layout_marginEnd="8dp" />
 
         <Button
             android:id="@+id/btnDelete"
@@ -51,4 +61,12 @@
             android:text="Reservar"
             android:visibility="gone" />
     </LinearLayout>
+
+    <!-- Línia separadora entre llibres -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CCCCCC"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp" />
 </LinearLayout>

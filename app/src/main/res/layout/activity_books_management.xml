@@ -22,6 +22,8 @@
         android:contentDescription="Afegir llibre"
         app:layout_anchor="@id/recyclerViewBooks"
         app:layout_anchorGravity="bottom|end"
+        android:backgroundTint="@color/black"
+        android:textColor="@color/purple_200"
         android:visibility="gone" />
 
 

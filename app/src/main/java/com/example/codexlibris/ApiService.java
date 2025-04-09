@@ -2,6 +2,7 @@ package com.example.codexlibris;
 
 import java.util.List;
 
+import retrofit2.http.DELETE;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.Call;
@@ -42,7 +43,19 @@ public interface ApiService {
     Call<Void> updateBook(
             @Header("Authorization") String token,
             @Path("id") int id,
-            @Body BookRequest request
+            @Body Book book
     );
+
+    @DELETE("/books/{id}")
+    Call<Void> deleteBook(
+            @Header("Authorization") String token,
+            @Path("id") int id
+    );
+
+    /* @POST("/loans")
+    Call<Void> reserveBook(
+            @Header("Authorization") String token,
+            @Body LoanRequest request
+    ); */
 }
 

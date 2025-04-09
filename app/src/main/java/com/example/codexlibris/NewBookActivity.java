@@ -2,6 +2,7 @@ package com.example.codexlibris;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -104,7 +105,6 @@ public class NewBookActivity extends AppCompatActivity {
         });
     }
 
-
     private void loadGenres() {
         ApiService api = RetrofitClient.getClient().create(ApiService.class);
         api.getGenres("Bearer " + token).enqueue(new Callback<List<Genre>>() {
@@ -145,8 +145,6 @@ public class NewBookActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
     private void showDatePicker() {
         final Calendar calendar = Calendar.getInstance();
@@ -194,7 +192,11 @@ public class NewBookActivity extends AppCompatActivity {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(NewBookActivity.this, "Llibre creat correctament", Toast.LENGTH_SHORT).show();
-                    finish(); // torna enrere
+                    Intent intent = new Intent();
+                    intent.putExtra("missatgeExit", "Llibre creat correctament");
+                    setResult(RESULT_OK, intent);
+                    finish();
+
                 } else {
                     Toast.makeText(NewBookActivity.this, "Error en crear llibre", Toast.LENGTH_SHORT).show();
                     Log.e("NewBook", "Resposta error: " + response.code());

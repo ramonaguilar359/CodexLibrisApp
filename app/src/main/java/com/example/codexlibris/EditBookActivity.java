@@ -11,6 +11,9 @@ import android.widget.*;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -35,6 +38,10 @@ public class EditBookActivity extends AppCompatActivity {
     private String token;
     private List<Author> authorList;
     private List<Genre> genreList;
+
+    private Author selectedAuthorObject;
+    private Genre selectedGenreObject;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,7 +83,7 @@ public class EditBookActivity extends AppCompatActivity {
                 Toast.makeText(this, "Tots els camps són obligatoris", Toast.LENGTH_SHORT).show();
                 return;
             }
-
+            /*
             BookRequest request = new BookRequest(
                     title,
                     selectedAuthorId,
@@ -85,6 +92,25 @@ public class EditBookActivity extends AppCompatActivity {
                     selectedGenreId,
                     available
             );
+            */
+            Book request = new Book();
+            request.setId(bookId);
+            request.setTitle(title);
+            request.setIsbn(isbn);
+            request.setPublished_date(selectedDateISO);
+            request.setAvailable(available);
+            request.setAuthor(selectedAuthorObject);
+            request.setGenre(selectedGenreObject);
+
+            Log.d("EditBook", "Request JSON: title=" + title +
+                    ", isbn=" + isbn +
+                    ", authorId=" + selectedAuthorId +
+                    ", genreId=" + selectedGenreId +
+                    ", publishedDate=" + selectedDateISO +
+                    ", available=" + available);
+
+            Gson gson = new Gson();
+            Log.d("EditBook", "JSON enviat: " + gson.toJson(request));
 
             ApiService api = RetrofitClient.getClient().create(ApiService.class);
             Call<Void> call = api.updateBook("Bearer " + token, bookId, request);
@@ -99,6 +125,14 @@ public class EditBookActivity extends AppCompatActivity {
                         Toast.makeText(EditBookActivity.this, "Error actualitzant el llibre", Toast.LENGTH_SHORT).show();
                         Log.e("EditBook", "Resposta: " + response.code());
                     }
+                    if (!response.isSuccessful()) {
+                        try {
+                            Log.e("EditBook", "Error cos: " + response.errorBody().string());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
                 }
 
                 @Override
@@ -120,6 +154,16 @@ public class EditBookActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     Book book = response.body();
                     fillFormWithBook(book);
+
+                    // recuperem també els objectes author i genre ja que el
+                    // body request de edit llibre ho requereix
+                    // TODO: comentar-ho amb la Jessica
+                    selectedAuthorId = book.getAuthor().getId();
+                    selectedAuthorObject = book.getAuthor();
+
+                    selectedGenreId = book.getGenre().getId();
+                    selectedGenreObject = book.getGenre();
+
                 } else {
                     Log.e("EditBook", "Error carregant llibre");
                 }

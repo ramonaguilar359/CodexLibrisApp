@@ -4,12 +4,16 @@ public class LoginResponse {
     private String token;
     private String username;
     private int roleId;
+    private int id;
 
     public String getToken() {
         return token;
     }
 
     public int getRoleId() { return roleId; }
+
+    public int getId() { return id; }
+
 
     @Override
     public String toString() {

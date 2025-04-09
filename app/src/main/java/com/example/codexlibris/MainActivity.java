@@ -31,6 +31,10 @@ public class MainActivity extends AppCompatActivity {
         altaUsuarioButton = findViewById(R.id.altaUsuarioButton);
         recuperarPasswordButton = findViewById(R.id.recuperarPasswordButton);
 
+        // patch per no tenir que escriure tota l'estona els valors
+        usernameEditText.setText("admin");
+        passwordEditText.setText("admin");
+
         // Inicializar SharedPreferences para guardar el token
         sharedPreferences = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
 
@@ -84,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                     sharedPreferences.edit()
                             .putString("jwt_token", token)
                             .putInt("role_id", response.body().getRoleId())
+                            .putInt("user_id", response.body().getId())
                             .apply();
 
                     Toast.makeText(MainActivity.this, "Login exitoso!", Toast.LENGTH_SHORT).show();
