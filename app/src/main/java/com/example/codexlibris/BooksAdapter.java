@@ -122,9 +122,17 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
                 btnDelete.setVisibility(View.GONE);
                 btnReserve.setVisibility(View.VISIBLE);
 
-                btnReserve.setOnClickListener(v ->
-                        Toast.makeText(context, "Reservar llibre: " + llibre.getTitle(), Toast.LENGTH_SHORT).show()
-                );
+                // btnReserve.setOnClickListener(v -> reserveBook(llibre, getAdapterPosition()));
+
+                if (llibre.getAvailable()) {
+                    btnReserve.setEnabled(true);
+                    btnReserve.setText("Reservar");
+                    btnReserve.setOnClickListener(v -> reserveBook(llibre, getAdapterPosition()));
+                } else {
+                    btnReserve.setEnabled(false);
+                    btnReserve.setText("Reservat");
+                }
+
             }
 
             btnEdit.setOnClickListener(v -> {
@@ -165,47 +173,56 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
             });
         }
 
-        private void reserveBook(Book book) {
-            // Missatge temporal mentre el backend no està llest
+        private void reserveBook(Book llibre, int position) {
             new AlertDialog.Builder(context)
-                    .setTitle("Funcionalitat no disponible")
-                    .setMessage("La reserva de llibres encara no està operativa. Aquesta funció s'activarà pròximament.")
-                    .setPositiveButton("D'acord", null)
+                    .setTitle("Confirmar reserva")
+                    .setMessage("Vols reservar aquest llibre?")
+                    .setPositiveButton("Sí", (dialog, which) -> {
+                        // Creem una còpia del llibre amb available = false
+                        Book updatedBook = new Book();
+                        updatedBook.setId(llibre.getId());
+                        updatedBook.setTitle(llibre.getTitle());
+                        updatedBook.setIsbn(llibre.getIsbn());
+                        updatedBook.setPublished_date(llibre.getPublished_date());
+                        updatedBook.setAvailable(false); // RESERVAT
+                        updatedBook.setAuthor(llibre.getAuthor());
+                        updatedBook.setGenre(llibre.getGenre());
+
+                        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+                        Call<Void> call = api.updateBook("Bearer " + token, llibre.getId(), updatedBook);
+
+                        call.enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                if (response.isSuccessful()) {
+                                    showDialog("Llibre reservat correctament");
+                                    llibre.setAvailable(false); // actualitzem estat localment
+                                    notifyItemChanged(position);
+                                } else {
+                                    showDialog("No s'ha pogut reservar el llibre");
+                                    Log.e("ReserveBook", "Error: " + response.code());
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                showDialog("Error de connexió reservant llibre");
+                                Log.e("ReserveBook", "Error de connexió", t);
+                            }
+                        });
+                    })
+                    .setNegativeButton("Cancel·la", null)
                     .show();
-
-            // PENDENT quan el backend estigui actiu
-            /*
-            String today = LocalDate.now().toString();
-            String due = LocalDate.now().plusMonths(1).toString();
-
-            LoanRequest request = new LoanRequest(
-                today,
-                due,
-                null, // No retornat encara
-                userId,
-                book.getId(),
-                2 // Pendent
-            );
-
-            ApiService api = RetrofitClient.getClient().create(ApiService.class);
-            Call<Void> call = api.reserveBook("Bearer " + token, request);
-
-            call.enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    if (response.isSuccessful()) {
-                        Toast.makeText(context, "Reserva creada!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, "Error creant la reserva", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-                    Toast.makeText(context, "Error de connexió", Toast.LENGTH_SHORT).show();
-                }
-            });
-            */
         }
+
+        private void showDialog(String missatge) {
+            new AlertDialog.Builder(context)
+                    .setTitle("Informació")
+                    .setMessage(missatge)
+                    .setPositiveButton("Tancar", null)
+                    .show();
+        }
+
+
     }
 }

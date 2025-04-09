@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
         recuperarPasswordButton = findViewById(R.id.recuperarPasswordButton);
 
         // patch per no tenir que escriure tota l'estona els valors
-        usernameEditText.setText("admin");
-        passwordEditText.setText("admin");
+        usernameEditText.setText("geral_rivia");
+        passwordEditText.setText("geral_rivia");
 
         // Inicializar SharedPreferences para guardar el token
         sharedPreferences = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);

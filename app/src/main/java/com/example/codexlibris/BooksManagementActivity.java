@@ -117,9 +117,6 @@ public class BooksManagementActivity extends AppCompatActivity {
         Log.d("BooksManagement", "Cridant a getBooks amb token: Bearer " + token);
         Call<List<Book>> call = apiService.getBooks("Bearer " + token);
 
-
-        Log.d("BooksManagement", "Cridant a getBooks amb token: Bearer " + token);
-
         call.enqueue(new Callback<List<Book>>() {
             @Override
             public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
