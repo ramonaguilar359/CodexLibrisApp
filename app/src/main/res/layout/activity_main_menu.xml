@@ -23,44 +23,27 @@
         android:text="Gestió de Llibres"
         android:layout_marginTop="8dp" />
 
-    <!-- Botón de Logout -->
+    <Button
+        android:id="@+id/btnGestioEsdeveniments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gestió d'esdeveniments"
+        android:enabled="false"
+        android:alpha="0.5"
+        android:layout_marginTop="16dp" />
+
+    <!-- Espai flexible per empènyer el botó cap avall -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Botó de Logout a sota de tot -->
     <Button
         android:id="@+id/logoutButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Logout"
         android:layout_marginTop="24dp" />
-
-    <!-- Opciones ficticias -->
-    <!-- Button
-        android:id="@+id/option1Button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Inici" />
-
-    <Button
-        android:id="@+id/option2Button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Usuaris"
-        android:layout_marginTop="8dp" />
-
-    <Button
-        android:id="@+id/option4Button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Esdeveniments"
-        android:layout_marginTop="8dp" /-->
-
-    <!-- Botón exclusivo para administradores (inicialmente oculto) -->
-    <!--Button
-        android:id="@+id/adminOptionButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Eines administratives"
-        android:layout_marginTop="8dp"
-        android:visibility="gone" /-->
-
-
 
 </LinearLayout>

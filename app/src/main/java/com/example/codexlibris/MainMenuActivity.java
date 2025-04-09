@@ -36,7 +36,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
         // Mostrar mensaje de bienvenida
         if (token != null) {
-            textWelcome.setText("Benvingut! Token: " + token.substring(0, Math.min(token.length(), 10)) + "...");
+            textWelcome.setText("Benvingut!");
         }
 
         Log.d("BooksManagement", "Cridant a getBooks amb token: Bearer " + token);

@@ -10,6 +10,8 @@ public class Book {
     private String published_date;
     private Genre genre;
     private Boolean available;
+    private String created_at;
+    private String updated_at;
 
     public Book() {}
 
@@ -21,7 +23,13 @@ public class Book {
     public void setAuthor(Author author) { this.author = author; }
     public void setGenre(Genre genre) { this.genre = genre; }
 
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
+    }
 
+    public void setUpdated_at(String updated_at) {
+        this.updated_at = updated_at;
+    }
 
     public int getId() {
         return id;
