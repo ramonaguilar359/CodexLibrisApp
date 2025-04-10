@@ -14,7 +14,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Pantalla principal d'autenticació.
+ * Permet als usuaris iniciar sessió amb nom d'usuari i contrasenya.
+ * També inclou placeholders per a funcionalitats futures com l'alta d'usuari i la recuperació de contrasenya.
+ */
 public class MainActivity extends AppCompatActivity {
+
     private static final String TAG = "MainActivity";
     private EditText usernameEditText, passwordEditText;
     private Button loginButton, altaUsuarioButton, recuperarPasswordButton;
@@ -31,36 +37,24 @@ public class MainActivity extends AppCompatActivity {
         altaUsuarioButton = findViewById(R.id.altaUsuarioButton);
         recuperarPasswordButton = findViewById(R.id.recuperarPasswordButton);
 
-        // patch per no tenir que escriure tota l'estona els valors
-        usernameEditText.setText("geral_rivia");
-        passwordEditText.setText("geral_rivia");
-
-        // Inicializar SharedPreferences para guardar el token
+        // Inicialització de SharedPreferences per a gestionar la sessió
         sharedPreferences = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                login();
-            }
-        });
+        loginButton.setOnClickListener(v -> login());
 
-        // Botones "Alta usuario" y "Recuperar contraseña"
-        altaUsuarioButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Próximamente", Toast.LENGTH_SHORT).show();
-            }
-        });
+        altaUsuarioButton.setOnClickListener(v ->
+                Toast.makeText(MainActivity.this, "Próximamente", Toast.LENGTH_SHORT).show()
+        );
 
-        recuperarPasswordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Próximamente", Toast.LENGTH_SHORT).show();
-            }
-        });
+        recuperarPasswordButton.setOnClickListener(v ->
+                Toast.makeText(MainActivity.this, "Próximamente", Toast.LENGTH_SHORT).show()
+        );
     }
 
+    /**
+     * Intenta autenticar l'usuari amb els valors introduïts.
+     * Si la resposta és correcta, desa el token i redirigeix al menú principal.
+     */
     private void login() {
         String username = usernameEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
@@ -68,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "Intentando login con usuario: " + username);
 
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-
         LoginRequest request = new LoginRequest(username, password);
 
         Call<LoginResponse> call = apiService.login(request);
@@ -78,13 +71,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "Código de respuesta: " + response.code());
 
                 if (response.isSuccessful() && response.body() != null) {
-
-                    Log.d(TAG, "Respuesta de la API: " + response.body().toString());
-
                     String token = response.body().getToken();
-                    Log.d(TAG, "Token recibido: " + token);
 
-                    // Guardar el token en SharedPreferences
                     sharedPreferences.edit()
                             .putString("jwt_token", token)
                             .putInt("role_id", response.body().getRoleId())
@@ -93,11 +81,8 @@ public class MainActivity extends AppCompatActivity {
 
                     Toast.makeText(MainActivity.this, "Login exitoso!", Toast.LENGTH_SHORT).show();
 
-                    // Saltar a la pantalla del menú principal
-                    Intent intent = new Intent(MainActivity.this, MainMenuActivity.class);
-                    startActivity(intent);
+                    startActivity(new Intent(MainActivity.this, MainMenuActivity.class));
                     finish();
-
                 } else {
                     Log.e(TAG, "Error en login: Código HTTP " + response.code());
                     try {
@@ -117,3 +102,4 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 }
+

@@ -1,4 +1,5 @@
 package com.example.codexlibris;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -15,6 +16,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Pantalla de detall d'un llibre.
+ * Mostra la informació completa d'un llibre seleccionat,
+ * incloent autor, gènere, disponibilitat i més.
+ */
 public class BookDetailActivity extends AppCompatActivity {
 
     private TextView textTitle, textAuthor, textGenre, textISBN, textPublishedDate, textAvailability;
@@ -23,12 +29,15 @@ public class BookDetailActivity extends AppCompatActivity {
     private int roleId;
     private String token;
 
+    /**
+     * Inicialitza la interfície i carrega el detall del llibre.
+     * Recupera el token i el roleId des de SharedPreferences.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_detail);
 
-        // Recuperem les dades de sessió (token i roleId)
         sharedPreferences = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
         token = sharedPreferences.getString("jwt_token", null);
         roleId = sharedPreferences.getInt("role_id", -1);
@@ -44,6 +53,9 @@ public class BookDetailActivity extends AppCompatActivity {
         getBookDetails(bookId);
     }
 
+    /**
+     * Assigna les referències dels TextView de la interfície.
+     */
     private void initViews() {
         textTitle = findViewById(R.id.textTitle);
         textAuthor = findViewById(R.id.textAuthor);
@@ -53,8 +65,12 @@ public class BookDetailActivity extends AppCompatActivity {
         textAvailability = findViewById(R.id.textAvailability);
     }
 
+    /**
+     * Fa una crida a l’API per obtenir els detalls del llibre i actualitza la interfície.
+     *
+     * @param id Identificador del llibre
+     */
     private void getBookDetails(int id) {
-
         int bookId = getIntent().getIntExtra("BOOK_ID", -1);
         Log.d("BookDetail", "ID rebut: " + bookId);
 
@@ -67,7 +83,7 @@ public class BookDetailActivity extends AppCompatActivity {
                 Log.d("BookDetail", "Resposta HTTP: " + response.code());
                 if (response.isSuccessful() && response.body() != null) {
                     Book book = response.body();
-                    Log.d("BookDetail", "Títol rebut: " + book.getTitle()); // comprova si arriba
+                    Log.d("BookDetail", "Títol rebut: " + book.getTitle());
                     displayBookDetails(book);
                 } else {
                     Log.e("BookDetail", "Resposta no vàlida");
@@ -79,9 +95,13 @@ public class BookDetailActivity extends AppCompatActivity {
                 Log.e("BookDetail", "Error de connexió: " + t.getMessage(), t);
             }
         });
-
     }
 
+    /**
+     * Mostra les dades del llibre en pantalla.
+     *
+     * @param book Objecte amb la informació del llibre
+     */
     private void displayBookDetails(Book book) {
         textTitle.setText(book.getTitle());
         textAuthor.setText("Autor: " + book.getAuthor().getName());
@@ -95,4 +115,3 @@ public class BookDetailActivity extends AppCompatActivity {
         textAvailability.setTextColor(book.getAvailable() ? Color.GREEN : Color.RED);
     }
 }
-

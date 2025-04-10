@@ -1,7 +1,5 @@
 package com.example.codexlibris;
 
-import java.time.LocalDate;
-
 public class Author {
     private int id;
     private String name;
@@ -50,5 +48,3 @@ public class Author {
         return nationality;
     }
 }
-
-

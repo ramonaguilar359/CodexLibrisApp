@@ -22,14 +22,20 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Activitat per modificar la informació d’un llibre existent.
+ * Només disponible per a persones amb rol d’administració.
+ */
 public class EditBookActivity extends AppCompatActivity {
 
+    // Elements d'interfície
     private EditText editTitle, editISBN;
     private Spinner spinnerAuthor, spinnerGenre;
     private TextView textDate;
     private Button btnSelectDate, btnUpdateBook;
     private Switch switchAvailable;
 
+    // Variables auxiliars
     private int selectedAuthorId = -1;
     private int selectedGenreId = -1;
     private String selectedDateISO = null;
@@ -42,7 +48,9 @@ public class EditBookActivity extends AppCompatActivity {
     private Author selectedAuthorObject;
     private Genre selectedGenreObject;
 
-
+    /**
+     * Inicialitza la pantalla, carrega el llibre a editar i les dades de suport.
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,12 +58,9 @@ public class EditBookActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
         token = prefs.getString("jwt_token", null);
-
-        // Rebem l'ID del llibre
         bookId = getIntent().getIntExtra("book_id", -1);
-        Log.d("EditBook", "ID rebut: " + bookId);
 
-        // Referències UI
+        // Vincula les vistes
         editTitle = findViewById(R.id.editTitle);
         editISBN = findViewById(R.id.editISBN);
         spinnerAuthor = findViewById(R.id.spinnerAuthor);
@@ -65,15 +70,12 @@ public class EditBookActivity extends AppCompatActivity {
         btnUpdateBook = findViewById(R.id.btnUpdateBook);
         switchAvailable = findViewById(R.id.switchAvailable);
 
-        // Carreguem dades
         loadAuthors();
         loadGenres();
         loadBookDetails(bookId);
 
-        // Selector de data
         btnSelectDate.setOnClickListener(v -> showDatePicker());
 
-        // Botó per desar canvis
         btnUpdateBook.setOnClickListener(v -> {
             String title = editTitle.getText().toString().trim();
             String isbn = editISBN.getText().toString().trim();
@@ -83,16 +85,7 @@ public class EditBookActivity extends AppCompatActivity {
                 Toast.makeText(this, "Tots els camps són obligatoris", Toast.LENGTH_SHORT).show();
                 return;
             }
-            /*
-            BookRequest request = new BookRequest(
-                    title,
-                    selectedAuthorId,
-                    isbn,
-                    selectedDateISO,
-                    selectedGenreId,
-                    available
-            );
-            */
+
             Book request = new Book();
             request.setId(bookId);
             request.setTitle(title);
@@ -101,16 +94,6 @@ public class EditBookActivity extends AppCompatActivity {
             request.setAvailable(available);
             request.setAuthor(selectedAuthorObject);
             request.setGenre(selectedGenreObject);
-
-            Log.d("EditBook", "Request JSON: title=" + title +
-                    ", isbn=" + isbn +
-                    ", authorId=" + selectedAuthorId +
-                    ", genreId=" + selectedGenreId +
-                    ", publishedDate=" + selectedDateISO +
-                    ", available=" + available);
-
-            Gson gson = new Gson();
-            Log.d("EditBook", "JSON enviat: " + gson.toJson(request));
 
             ApiService api = RetrofitClient.getClient().create(ApiService.class);
             Call<Void> call = api.updateBook("Bearer " + token, bookId, request);
@@ -124,15 +107,12 @@ public class EditBookActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(EditBookActivity.this, "Error actualitzant el llibre", Toast.LENGTH_SHORT).show();
                         Log.e("EditBook", "Resposta: " + response.code());
-                    }
-                    if (!response.isSuccessful()) {
                         try {
                             Log.e("EditBook", "Error cos: " + response.errorBody().string());
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
-
                 }
 
                 @Override
@@ -142,28 +122,25 @@ public class EditBookActivity extends AppCompatActivity {
                 }
             });
         });
-
     }
 
+    /**
+     * Carrega les dades del llibre que es vol editar.
+     * @param id ID del llibre
+     */
     private void loadBookDetails(int id) {
         ApiService api = RetrofitClient.getClient().create(ApiService.class);
         api.getBookById("Bearer " + token, id).enqueue(new Callback<Book>() {
             @Override
             public void onResponse(Call<Book> call, Response<Book> response) {
-                Log.d("EditBook", "Resposta HTTP: " + response.code());
                 if (response.isSuccessful() && response.body() != null) {
                     Book book = response.body();
                     fillFormWithBook(book);
 
-                    // recuperem també els objectes author i genre ja que el
-                    // body request de edit llibre ho requereix
-                    // TODO: comentar-ho amb la Jessica
                     selectedAuthorId = book.getAuthor().getId();
                     selectedAuthorObject = book.getAuthor();
-
                     selectedGenreId = book.getGenre().getId();
                     selectedGenreObject = book.getGenre();
-
                 } else {
                     Log.e("EditBook", "Error carregant llibre");
                 }
@@ -176,16 +153,16 @@ public class EditBookActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Omple els camps de formulari amb les dades del llibre.
+     */
     private void fillFormWithBook(Book book) {
         editTitle.setText(book.getTitle());
         editISBN.setText(book.getIsbn());
-
         selectedDateISO = book.getPublished_date();
         textDate.setText("Publicat: " + selectedDateISO.split("T")[0]);
-
         switchAvailable.setChecked(Boolean.TRUE.equals(book.getAvailable()));
 
-        // Esperem que les llistes estiguin carregades
         if (authorList != null) {
             for (int i = 0; i < authorList.size(); i++) {
                 if (authorList.get(i).getId() == book.getAuthor().getId()) {
@@ -207,12 +184,15 @@ public class EditBookActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Mostra el selector de data per escollir la data de publicació.
+     */
     private void showDatePicker() {
         final Calendar calendar = Calendar.getInstance();
         DatePickerDialog dialog = new DatePickerDialog(this,
                 (view, year, month, dayOfMonth) -> {
                     LocalDate date = LocalDate.of(year, month + 1, dayOfMonth);
-                    selectedDateISO = date.toString() + "T00:00:00";
+                    selectedDateISO = date + "T00:00:00";
                     textDate.setText("Publicat: " + date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
                 },
                 calendar.get(Calendar.YEAR),
@@ -221,6 +201,9 @@ public class EditBookActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Carrega la llista d'autors i omple el spinner corresponent.
+     */
     private void loadAuthors() {
         ApiService api = RetrofitClient.getClient().create(ApiService.class);
         api.getAuthors("Bearer " + token).enqueue(new Callback<List<Author>>() {
@@ -243,6 +226,9 @@ public class EditBookActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Carrega la llista de gèneres i omple el spinner corresponent.
+     */
     private void loadGenres() {
         ApiService api = RetrofitClient.getClient().create(ApiService.class);
         api.getGenres("Bearer " + token).enqueue(new Callback<List<Genre>>() {

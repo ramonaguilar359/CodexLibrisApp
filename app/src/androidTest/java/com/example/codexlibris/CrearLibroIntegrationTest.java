@@ -10,16 +10,26 @@ import retrofit2.Response;
 
 import static org.junit.Assert.*;
 
+/**
+ * Proves d'integració relacionades amb la creació de llibres.
+ * S'utilitza una API REST protegida amb autenticació JWT.
+ */
 @RunWith(AndroidJUnit4.class)
 public class CrearLibroIntegrationTest {
 
     private ApiService apiService;
 
+    /**
+     * Inicialitza el client Retrofit abans de cada prova.
+     */
     @Before
     public void setup() {
         apiService = RetrofitClient.getClient().create(ApiService.class);
     }
 
+    /**
+     * Comprova que un llibre vàlid es pot crear correctament.
+     */
     @Test
     public void testCrearLibroExitoso() throws Exception {
         String token = obtenirTokenAdmin();
@@ -27,7 +37,7 @@ public class CrearLibroIntegrationTest {
         BookRequest nouLlibre = new BookRequest(
                 "Kafka a la platja",
                 2,
-                "9788498414917bbb",
+                "97884984149178",
                 "2025-04-09T16:25:59.694Z",
                 3,
                 true
@@ -46,11 +56,11 @@ public class CrearLibroIntegrationTest {
         assertTrue("La creació hauria de ser exitosa", response.isSuccessful());
     }
 
-
-
+    /**
+     * Comprova que la creació d’un llibre amb camps buits falla amb un error 400.
+     */
     @Test
     public void testCrearLibroAmbCampsBuits() throws Exception {
-
         String token = obtenirTokenAdmin();
 
         BookRequest llibreInvalid = new BookRequest(
@@ -63,6 +73,9 @@ public class CrearLibroIntegrationTest {
         assertEquals("El codi de resposta hauria de ser 400", 400, response.code());
     }
 
+    /**
+     * Fa login amb l'usuari administrador i retorna el token d'accés.
+     */
     private String obtenirTokenAdmin() throws Exception {
         LoginRequest loginRequest = new LoginRequest("admin", "admin");
         Response<LoginResponse> response = apiService.login(loginRequest).execute();
@@ -72,5 +85,5 @@ public class CrearLibroIntegrationTest {
         assertNotNull("El token no hauria de ser nul", token);
         return "Bearer " + token;
     }
-
 }
+

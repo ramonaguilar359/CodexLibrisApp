@@ -22,6 +22,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Adaptador per mostrar una llista de llibres en un RecyclerView.
+ * Gestiona la lògica associada a cada tipus d'usuari (admin o lector) i
+ * permet accions com veure detalls, editar, esborrar o reservar llibres.
+ */
 public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHolder> {
 
     private List<Book> llibres;
@@ -29,6 +34,13 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
     private String token;
     private Context context;
 
+    /**
+     * Constructor que rep la llista de llibres i les dades de sessió.
+     *
+     * @param llibres Llibres a mostrar
+     * @param roleId  ID del rol de l'usuari (1 = admin)
+     * @param token   JWT per a la comunicació amb l'API
+     */
     public BooksAdapter(List<Book> llibres, int roleId, String token) {
         this.llibres = llibres;
         this.roleId = roleId;
@@ -54,12 +66,20 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
         return llibres.size();
     }
 
+    /**
+     * Substitueix la llista actual de llibres i refresca la vista.
+     *
+     * @param newBooks Nova llista de llibres
+     */
     public void updateBooks(List<Book> newBooks) {
         this.llibres.clear();
         this.llibres.addAll(newBooks);
         notifyDataSetChanged();
     }
 
+    /**
+     * ViewHolder per representar cada llibre.
+     */
     class BookViewHolder extends RecyclerView.ViewHolder {
         TextView textTitle;
         Button btnViewDetail, btnEdit, btnDelete, btnReserve;
@@ -73,6 +93,12 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
             btnReserve = itemView.findViewById(R.id.btnReserve);
         }
 
+        /**
+         * Associa les dades del llibre amb els elements visuals,
+         * i configura els botons segons el rol de l'usuari.
+         *
+         * @param llibre Objecte llibre a mostrar
+         */
         public void bind(final Book llibre) {
             textTitle.setText(llibre.getTitle());
 
@@ -85,7 +111,6 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
                 textAvailability.setTextColor(Color.RED);
             }
 
-            // Tots poden veure el detall del llibre
             btnViewDetail.setOnClickListener(v -> {
                 Intent intent = new Intent(itemView.getContext(), BookDetailActivity.class);
                 intent.putExtra("BOOK_ID", llibre.getId());
@@ -93,14 +118,17 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
             });
 
             if (roleId == 1) {
-                // Administrador: es mostra editar i esborrar
+                // Administrador: pot editar i eliminar
                 btnEdit.setVisibility(View.VISIBLE);
                 btnDelete.setVisibility(View.VISIBLE);
                 btnReserve.setVisibility(View.GONE);
 
-                btnEdit.setOnClickListener(v ->
-                        Toast.makeText(context, "Editar llibre: " + llibre.getTitle(), Toast.LENGTH_SHORT).show()
-                );
+                btnEdit.setOnClickListener(v -> {
+                    Intent intent = new Intent(context, EditBookActivity.class);
+                    intent.putExtra("book_id", llibre.getId());
+                    context.startActivity(intent);
+                });
+
                 btnDelete.setOnClickListener(v -> {
                     new AlertDialog.Builder(context)
                             .setTitle("Confirmació")
@@ -111,18 +139,15 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
                                     deleteBook(llibre.getId(), pos);
                                 }
                             })
-
                             .setNegativeButton("Cancel·la", null)
                             .show();
                 });
 
             } else {
-                // Usuari: es mostra reservar
+                // Usuari lector: pot reservar si està disponible
                 btnEdit.setVisibility(View.GONE);
                 btnDelete.setVisibility(View.GONE);
                 btnReserve.setVisibility(View.VISIBLE);
-
-                // btnReserve.setOnClickListener(v -> reserveBook(llibre, getAdapterPosition()));
 
                 if (llibre.getAvailable()) {
                     btnReserve.setEnabled(true);
@@ -132,17 +157,15 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
                     btnReserve.setEnabled(false);
                     btnReserve.setText("Reservat");
                 }
-
             }
-
-            btnEdit.setOnClickListener(v -> {
-                Intent intent = new Intent(context, EditBookActivity.class);
-                intent.putExtra("book_id", llibre.getId());
-                context.startActivity(intent);
-            });
-
         }
 
+        /**
+         * Crida a l'API per eliminar un llibre i actualitza la llista.
+         *
+         * @param bookId   ID del llibre a esborrar
+         * @param position Posició del llibre a la llista
+         */
         private void deleteBook(int bookId, int position) {
             SharedPreferences prefs = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
             String token = prefs.getString("jwt_token", null);
@@ -155,10 +178,8 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     if (response.isSuccessful()) {
                         DialogUtils.showMessage(context, "Llibre esborrat");
-
                         llibres.remove(position);
                         notifyItemRemoved(position);
-
                     } else {
                         Toast.makeText(context, "Error esborrant", Toast.LENGTH_SHORT).show();
                         Log.e("BookAdapter", "Resposta error: " + response.code());
@@ -173,18 +194,23 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
             });
         }
 
+        /**
+         * Mostra un diàleg de confirmació i fa la reserva del llibre.
+         *
+         * @param llibre   Llibre a reservar
+         * @param position Posició del llibre a la llista
+         */
         private void reserveBook(Book llibre, int position) {
             new AlertDialog.Builder(context)
                     .setTitle("Confirmar reserva")
                     .setMessage("Vols reservar aquest llibre?")
                     .setPositiveButton("Sí", (dialog, which) -> {
-                        // Creem una còpia del llibre amb available = false
                         Book updatedBook = new Book();
                         updatedBook.setId(llibre.getId());
                         updatedBook.setTitle(llibre.getTitle());
                         updatedBook.setIsbn(llibre.getIsbn());
                         updatedBook.setPublished_date(llibre.getPublished_date());
-                        updatedBook.setAvailable(false); // RESERVAT
+                        updatedBook.setAvailable(false);
                         updatedBook.setAuthor(llibre.getAuthor());
                         updatedBook.setGenre(llibre.getGenre());
 
@@ -196,7 +222,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
                             public void onResponse(Call<Void> call, Response<Void> response) {
                                 if (response.isSuccessful()) {
                                     showDialog("Llibre reservat correctament");
-                                    llibre.setAvailable(false); // actualitzem estat localment
+                                    llibre.setAvailable(false);
                                     notifyItemChanged(position);
                                 } else {
                                     showDialog("No s'ha pogut reservar el llibre");
@@ -215,6 +241,11 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
                     .show();
         }
 
+        /**
+         * Mostra un missatge informatiu en un diàleg simple.
+         *
+         * @param missatge Missatge a mostrar
+         */
         private void showDialog(String missatge) {
             new AlertDialog.Builder(context)
                     .setTitle("Informació")
@@ -222,7 +253,5 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
                     .setPositiveButton("Tancar", null)
                     .show();
         }
-
-
     }
 }
