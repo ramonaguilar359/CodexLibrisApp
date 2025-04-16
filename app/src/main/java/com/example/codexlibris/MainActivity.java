@@ -37,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
         altaUsuarioButton = findViewById(R.id.altaUsuarioButton);
         recuperarPasswordButton = findViewById(R.id.recuperarPasswordButton);
 
+        // patch per no tenir que escriure tota l'estona els valors
+        usernameEditText.setText("geral_rivia");
+        passwordEditText.setText("geral_rivia");
+
         // Inicialització de SharedPreferences per a gestionar la sessió
         sharedPreferences = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
 
@@ -71,12 +75,44 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "Código de respuesta: " + response.code());
 
                 if (response.isSuccessful() && response.body() != null) {
+
+                    // fem un log de tot el response per fer un cop d'ull del que retorna el servidor
+                    Log.d("Sessio", "Resposta completa: " + response.body());
+                    Log.d("Sessio", "User ID (directe): " + response.body().getId());
+                    // TODO: demanar a la Jessica que el body response de Login també retorni el userId
+                    // de moment fem un patch:
+                    String username = response.body().getUsername();
+                    int fakeUserId;
+
+                    switch (username) {
+                        case "admin":
+                            fakeUserId = 1;
+                            break;
+                        case "geral_rivia":
+                            fakeUserId = 2;
+                            break;
+                        case "laia_miret":
+                            fakeUserId = 3;
+                            break;
+                        case "oriol_sendra":
+                            fakeUserId = 4;
+                            break;
+                        default:
+                            fakeUserId = 0; // valor per defecte si no coincideix
+                            break;
+                    }
+
+                    Log.d("Sessio", "Assignant user_id: " + fakeUserId + " per a username: " + username);
+
                     String token = response.body().getToken();
+
+                    Log.d("Sessio", "Guardant user_id: " + response.body().getId());
 
                     sharedPreferences.edit()
                             .putString("jwt_token", token)
                             .putInt("role_id", response.body().getRoleId())
-                            .putInt("user_id", response.body().getId())
+                            //.putInt("user_id", response.body().getId())
+                            .putInt("user_id", fakeUserId) // TODO: Corregir quan el backend estigui llest
                             .apply();
 
                     Toast.makeText(MainActivity.this, "Login exitoso!", Toast.LENGTH_SHORT).show();

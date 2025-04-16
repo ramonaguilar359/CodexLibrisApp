@@ -32,6 +32,7 @@
         <activity android:name=".BookDetailActivity" />
         <activity android:name=".NewBookActivity" />
         <activity android:name=".EditBookActivity" />
+        <activity android:name=".HistorialReservasActivity" />
 
     </application>
 

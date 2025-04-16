@@ -6,14 +6,13 @@ public class LoginResponse {
     private int roleId;
     private int id;
 
-    public String getToken() {
-        return token;
-    }
+    public String getToken() { return token; }
 
     public int getRoleId() { return roleId; }
 
     public int getId() { return id; }
 
+    public String getUsername() { return username; }
 
     @Override
     public String toString() {
