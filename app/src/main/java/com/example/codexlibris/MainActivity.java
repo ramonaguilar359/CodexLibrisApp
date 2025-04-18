@@ -98,15 +98,13 @@ public class MainActivity extends AppCompatActivity {
                             fakeUserId = 4;
                             break;
                         default:
-                            fakeUserId = 0; // valor per defecte si no coincideix
+                            fakeUserId = 0;
                             break;
                     }
 
                     Log.d("Sessio", "Assignant user_id: " + fakeUserId + " per a username: " + username);
 
                     String token = response.body().getToken();
-
-                    Log.d("Sessio", "Guardant user_id: " + response.body().getId());
 
                     sharedPreferences.edit()
                             .putString("jwt_token", token)
