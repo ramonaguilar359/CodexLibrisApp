@@ -33,6 +33,13 @@
         <activity android:name=".NewBookActivity" />
         <activity android:name=".EditBookActivity" />
         <activity android:name=".HistorialReservasActivity" />
+        <activity android:name=".AuthorsManagementActivity" />
+        <activity android:name=".AuthorDetailActivity" />
+        <activity android:name=".CreateAuthorActivity" />
+        <activity android:name=".EditAuthorActivity" />
+
+
+
 
     </application>
 

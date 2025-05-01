@@ -110,6 +110,22 @@ public interface ApiService {
             @Path("id") int id
     );
 
+    @GET("/authors/{id}")
+    Call<Author> getAuthorById(@Header("Authorization") String token, @Path("id") int id);
+
+    @POST("authors")
+    Call<Void> createAuthor(@Header("Authorization") String token, @Body AuthorRequest authorRequest);
+
+    @PUT("/authors/{id}")
+    Call<Void> updateAuthor(@Header("Authorization") String token, @Path("id") int id, @Body Author author);
+
+    @DELETE("/authors/{id}")
+    Call<Void> deleteAuthor(@Header("Authorization") String token, @Path("id") int id);
+
+
+
+
+
     /*
     // Endpoint pendent d'implementar per gestionar reserves
 

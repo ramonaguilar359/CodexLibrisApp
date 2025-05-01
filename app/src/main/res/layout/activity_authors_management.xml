@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- RecyclerView per mostrar la llista de llibres -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewAuthors"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp" />
+
+    <!-- Botó flotant per afegir un nou llibre (visible només per administradors) -->
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fabAddAuthor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Afegir autor"
+        android:contentDescription="Afegir autor"
+        app:layout_anchor="@id/recyclerViewAuthors"
+        app:layout_anchorGravity="bottom|end"
+        android:backgroundTint="@color/black"
+        android:textColor="@color/purple_200"
+        android:visibility="gone" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

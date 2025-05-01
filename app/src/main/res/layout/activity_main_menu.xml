@@ -24,13 +24,24 @@
         android:layout_marginTop="8dp" />
 
     <Button
+        android:id="@+id/authorsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gestió d'Autors"
+        android:layout_marginTop="8dp" />
+    <Button
+        android:id="@+id/genresButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gestió de Gèneres"
+        android:layout_marginTop="8dp" />
+
+    <Button
         android:id="@+id/btnGestioEsdeveniments"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Gestió d'esdeveniments"
-        android:enabled="false"
-        android:alpha="0.5"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="8dp" />
 
     <Button
         android:id="@+id/btnHistorial"

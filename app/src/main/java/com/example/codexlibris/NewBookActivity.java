@@ -178,12 +178,6 @@ public class NewBookActivity extends AppCompatActivity {
 
         BookRequest request = new BookRequest(title, authorId, isbn, selectedDateISO, genreId, available);
 
-        // conprovació del TOKEN
-        SharedPreferences prefs = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
-        token = prefs.getString("jwt_token", null);
-        Log.d("NewBook", "Token per POST: Bearer " + token);
-
-
         ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
         Call<Void> call = apiService.createBook("Bearer " + token, request);
 

@@ -18,7 +18,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
     private TextView textWelcome;
-    private Button booksButton, logoutButton, btnRecomana;
+    private Button booksButton, logoutButton, btnRecomana, authorsButton, genresButton, btnGestioEsdeveniments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +31,9 @@ public class MainMenuActivity extends AppCompatActivity {
         booksButton = findViewById(R.id.booksButton);
         btnRecomana = findViewById(R.id.btnHistorial);
         logoutButton = findViewById(R.id.logoutButton);
+        authorsButton = findViewById(R.id.authorsButton);
+        genresButton = findViewById(R.id.genresButton);
+        btnGestioEsdeveniments = findViewById(R.id.btnGestioEsdeveniments);
 
 
         String token = sharedPreferences.getString("jwt_token", null);
@@ -53,6 +56,30 @@ public class MainMenuActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainMenuActivity.this, HistorialReservasActivity.class);
                 startActivity(intent);
             }
+        });
+
+        /**
+         * Accés a la pantalla de gestió d'autors.
+         */
+        authorsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainMenuActivity.this, AuthorsManagementActivity.class);
+            startActivity(intent);
+        });
+
+        /**
+         * Accés a la pantalla de gestió de gèneres.
+         */
+        genresButton.setOnClickListener(v -> {
+            //Intent intent = new Intent(MainMenuActivity.this, GenresManagementActivity.class);
+            //startActivity(intent);
+        });
+
+        /**
+         * Accés a la pantalla de gestió d'esdeveniments.
+         */
+        btnGestioEsdeveniments.setOnClickListener(v -> {
+            //Intent intent = new Intent(MainMenuActivity.this, EventsManagementActivity.class);
+            //startActivity(intent);
         });
 
         /**

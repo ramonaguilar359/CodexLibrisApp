@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:showDividers="middle"
+        android:dividerPadding="8dp">
+
+        <TextView
+            android:text="Editar autor"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nom"
+            android:textStyle="bold" />
+        <EditText
+            android:id="@+id/editAuthorName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nacionalitat"
+            android:textStyle="bold" />
+        <EditText
+            android:id="@+id/editAuthorNationality"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Data Neixement"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/textAuthorBirthDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No seleccionada" />
+        <Button
+            android:id="@+id/btnSelectBirthDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Seleccionar data" />
+
+        <Button
+            android:id="@+id/btnUpdateAuthor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Desar canvis"
+            android:layout_marginTop="24dp" />
+    </LinearLayout>
+</ScrollView>
