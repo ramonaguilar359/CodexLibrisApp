@@ -78,8 +78,8 @@ public class MainMenuActivity extends AppCompatActivity {
          * Accés a la pantalla de gestió d'esdeveniments.
          */
         btnGestioEsdeveniments.setOnClickListener(v -> {
-            //Intent intent = new Intent(MainMenuActivity.this, EventsManagementActivity.class);
-            //startActivity(intent);
+            Intent intent = new Intent(MainMenuActivity.this, EventsManagementActivity.class);
+            startActivity(intent);
         });
 
         /**

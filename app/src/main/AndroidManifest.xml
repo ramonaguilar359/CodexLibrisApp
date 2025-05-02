@@ -41,6 +41,10 @@
         <activity android:name=".GenreDetailActivity" />
         <activity android:name=".CreateGenreActivity" />
         <activity android:name=".EditGenreActivity" />
+        <activity android:name=".EventsManagementActivity" />
+        <activity android:name=".EventDetailActivity" />
+        <activity android:name=".CreateEventActivity" />
+        <activity android:name=".EditEventActivity" />
 
 
 

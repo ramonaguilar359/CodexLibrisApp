@@ -127,6 +127,27 @@ public interface ApiService {
 
     @DELETE("genres/{id}")
     Call<Void> deleteGenre(@Header("Authorization") String token, @Path("id") int id);
+
+    // Obtenir tots els esdeveniments
+    @GET("/events")
+    Call<List<Event>> getEvents(@Header("Authorization") String authHeader);
+
+    // Obtenir un esdeveniment per ID
+    @GET("/events/{id}")
+    Call<Event> getEventById(@Header("Authorization") String authHeader, @Path("id") int id);
+
+    // Crear un nou esdeveniment
+    @POST("/events")
+    Call<Void> createEvent(@Header("Authorization") String authHeader, @Body EventRequest request);
+
+    // Actualitzar un esdeveniment existent
+    @PUT("/events/{id}")
+    Call<Void> updateEvent(@Header("Authorization") String authHeader, @Path("id") int id, @Body Event request);
+
+    // Eliminar un esdeveniment
+    @DELETE("/events/{id}")
+    Call<Void> deleteEvent(@Header("Authorization") String authHeader, @Path("id") int id);
+
 }
 
 

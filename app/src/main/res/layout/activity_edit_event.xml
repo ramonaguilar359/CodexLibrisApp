@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="?android:attr/dividerVertical"
+        android:showDividers="middle"
+        android:dividerPadding="8dp">
+
+        <!-- Títol -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Títol"
+            android:textStyle="bold" />
+        <EditText
+            android:id="@+id/editTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Títol de l'esdeveniment"
+            android:inputType="text" />
+
+        <!-- Descripció -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Descripció"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp" />
+        <EditText
+            android:id="@+id/editDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Descripció de l'esdeveniment"
+            android:inputType="textMultiLine"
+            android:minLines="3" />
+
+        <!-- Ubicació -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ubicació"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp" />
+        <EditText
+            android:id="@+id/editLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="On es farà l'esdeveniment"
+            android:inputType="text" />
+
+        <!-- Data -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Data"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp" />
+        <TextView
+            android:id="@+id/textEventDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No seleccionada" />
+        <Button
+            android:id="@+id/btnSelectDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Seleccionar data" />
+
+        <!-- Hora d'inici -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hora d'inici"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp" />
+        <TextView
+            android:id="@+id/textStartTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No seleccionada" />
+        <Button
+            android:id="@+id/btnStartTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Seleccionar hora d'inici" />
+
+        <!-- Hora de finalització -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hora de finalització"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp" />
+        <TextView
+            android:id="@+id/textEndTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No seleccionada" />
+        <Button
+            android:id="@+id/btnEndTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Seleccionar hora de finalització" />
+
+        <!-- Botó desar -->
+        <Button
+            android:id="@+id/btnSaveEvent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Desar canvis"
+            android:layout_marginTop="24dp" />
+    </LinearLayout>
+</ScrollView>
