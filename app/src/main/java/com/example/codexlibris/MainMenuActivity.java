@@ -70,8 +70,8 @@ public class MainMenuActivity extends AppCompatActivity {
          * Accés a la pantalla de gestió de gèneres.
          */
         genresButton.setOnClickListener(v -> {
-            //Intent intent = new Intent(MainMenuActivity.this, GenresManagementActivity.class);
-            //startActivity(intent);
+            Intent intent = new Intent(MainMenuActivity.this, GenresManagementActivity.class);
+            startActivity(intent);
         });
 
         /**

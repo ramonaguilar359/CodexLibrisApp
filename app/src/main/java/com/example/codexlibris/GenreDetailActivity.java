@@ -41,8 +41,6 @@ public class GenreDetailActivity extends AppCompatActivity {
     private void initViews() {
         textName = findViewById(R.id.textName);
         textDescription = findViewById(R.id.textDescription);
-        textCreatedAt = findViewById(R.id.textCreatedAt);
-        textUpdatedAt = findViewById(R.id.textUpdatedAt);
     }
 
     private void carregarDetallGenere(int id) {
