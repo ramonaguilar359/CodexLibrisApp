@@ -37,6 +37,10 @@
         <activity android:name=".AuthorDetailActivity" />
         <activity android:name=".CreateAuthorActivity" />
         <activity android:name=".EditAuthorActivity" />
+        <activity android:name=".GenresManagementActivity" />
+        <activity android:name=".GenreDetailActivity" />
+        <activity android:name=".CreateGenreActivity" />
+        <activity android:name=".EditGenreActivity" />
 
 
 

@@ -74,15 +74,6 @@ public interface ApiService {
     Call<List<Author>> getAuthors(@Header("Authorization") String token);
 
     /**
-     * Obté la llista de gèneres disponibles.
-     *
-     * @param token token JWT per autorització
-     * @return llista de gèneres
-     */
-    @GET("/genres")
-    Call<List<Genre>> getGenres(@Header("Authorization") String token);
-
-    /**
      * Actualitza les dades d'un llibre existent.
      *
      * @param token token JWT per autorització
@@ -122,19 +113,20 @@ public interface ApiService {
     @DELETE("/authors/{id}")
     Call<Void> deleteAuthor(@Header("Authorization") String token, @Path("id") int id);
 
+    @GET("genres")
+    Call<List<Genre>> getGenres(@Header("Authorization") String token);
 
+    @GET("genres/{id}")
+    Call<Genre> getGenreById(@Header("Authorization") String token, @Path("id") int id);
 
+    @POST("genres")
+    Call<Void> createGenre(@Header("Authorization") String token, @Body GenreRequest genre);
 
+    @PUT("genres/{id}")
+    Call<Void> updateGenre(@Header("Authorization") String token, @Path("id") int id, @Body GenreRequest genre);
 
-    /*
-    // Endpoint pendent d'implementar per gestionar reserves
-
-    @POST("/loans")
-    Call<Void> reserveBook(
-            @Header("Authorization") String token,
-            @Body LoanRequest request
-    );
-    */
+    @DELETE("genres/{id}")
+    Call<Void> deleteGenre(@Header("Authorization") String token, @Path("id") int id);
 }
 
 
