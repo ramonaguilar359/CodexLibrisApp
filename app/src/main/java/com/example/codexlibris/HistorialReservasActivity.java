@@ -166,7 +166,7 @@ public class HistorialReservasActivity extends AppCompatActivity {
                     }
                     runOnUiThread(() -> {
                         btnRecomIAnacions.setEnabled(true);
-                        btnRecomIAnacions.setText("RecomIAnacions");
+                        btnRecomIAnacions.setText("Recomanacions");
                         Toast.makeText(HistorialReservasActivity.this, "Error en la resposta de ChatGPT", Toast.LENGTH_SHORT).show();
                     });
                 }

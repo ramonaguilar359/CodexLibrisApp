@@ -50,7 +50,7 @@ public class AuthorsManagementActivity extends AppCompatActivity {
         fabAddAuthor = findViewById(R.id.fabAddAuthor);
 
         recyclerViewAuthors.setLayoutManager(new LinearLayoutManager(this));
-        authorsAdapter = new AuthorAdapter(getApplicationContext(), new ArrayList<>(), roleId, token);
+        authorsAdapter = new AuthorAdapter(AuthorsManagementActivity.this, new ArrayList<>(), roleId, token);
         recyclerViewAuthors.setAdapter(authorsAdapter);
 
         // Mostrar o amagar botó de crear autor segons el rol

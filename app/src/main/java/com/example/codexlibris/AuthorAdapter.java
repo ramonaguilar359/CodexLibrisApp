@@ -76,6 +76,7 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorView
 
             btnView.setOnClickListener(v -> {
                 Intent intent = new Intent(context, AuthorDetailActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("AUTHOR_ID", author.getId());
                 context.startActivity(intent);
             });
@@ -86,6 +87,7 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorView
 
                 btnEdit.setOnClickListener(v -> {
                     Intent intent = new Intent(context, EditAuthorActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("author_id", author.getId());
                     context.startActivity(intent);
                 });

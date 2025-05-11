@@ -42,6 +42,10 @@ public class MainMenuActivity extends AppCompatActivity {
         if (token != null) { textWelcome.setText("Benvingut!"); }
         if (roleId != 1) { btnRecomana.setVisibility(View.VISIBLE); }
 
+        if (roleId != 1) { authorsButton.setVisibility(View.INVISIBLE); }
+        if (roleId != 1) { genresButton.setVisibility(View.INVISIBLE); }
+        if (roleId != 1) { btnGestioEsdeveniments.setVisibility(View.INVISIBLE); }
+
         /**
          * Accés a la pantalla de gestió de llibres.
          */
