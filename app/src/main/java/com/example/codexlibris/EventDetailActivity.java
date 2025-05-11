@@ -22,6 +22,8 @@ public class EventDetailActivity extends AppCompatActivity {
     private int eventId;
     private String token;
 
+    private Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +54,8 @@ public class EventDetailActivity extends AppCompatActivity {
     }
 
     private void loadEventDetails(int id) {
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        //ApiService api = RetrofitClient.getClient().create(ApiService.class);
+ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
         Call<Event> call = api.getEventById("Bearer " + token, id);
 
         call.enqueue(new Callback<Event>() {

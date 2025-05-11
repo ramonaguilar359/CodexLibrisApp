@@ -22,6 +22,8 @@ public class EditGenreActivity extends AppCompatActivity {
     private int genreId;
     private String token;
 
+    private Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +49,8 @@ public class EditGenreActivity extends AppCompatActivity {
     }
 
     private void carregarDadesDelGenere(int id) {
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        //ApiService api = RetrofitClient.getClient().create(ApiService.class);
+ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
         api.getGenreById("Bearer " + token, id).enqueue(new Callback<Genre>() {
             @Override
             public void onResponse(Call<Genre> call, Response<Genre> response) {
@@ -79,7 +82,8 @@ public class EditGenreActivity extends AppCompatActivity {
 
         GenreRequest request = new GenreRequest(name, description);
 
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        //ApiService api = RetrofitClient.getClient().create(ApiService.class);
+ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
         Call<Void> call = api.updateGenre("Bearer " + token, genreId, request);
 
         call.enqueue(new Callback<Void>() {

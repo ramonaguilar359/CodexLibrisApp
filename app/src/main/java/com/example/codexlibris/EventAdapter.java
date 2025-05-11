@@ -113,7 +113,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             SharedPreferences prefs = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
             String token = prefs.getString("jwt_token", null);
 
-            ApiService api = RetrofitClient.getClient().create(ApiService.class);
+            //ApiService api = RetrofitClient.getClient().create(ApiService.class);
+            ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
+
             Call<Void> call = api.deleteEvent("Bearer " + token, id);
 
             call.enqueue(new Callback<Void>() {

@@ -35,6 +35,7 @@ public class BooksManagementActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private int roleId;
     private String token;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +118,10 @@ public class BooksManagementActivity extends AppCompatActivity {
             return;
         }
 
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        //ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        ApiService apiService = RetrofitClient.getClient(context).create(ApiService.class); // ✅
+
+
         Log.d("BooksManagement", "Cridant a getBooks amb token: Bearer " + token);
         Call<List<Book>> call = apiService.getBooks("Bearer " + token);
 

@@ -48,6 +48,8 @@ public class EditBookActivity extends AppCompatActivity {
     private Author selectedAuthorObject;
     private Genre selectedGenreObject;
 
+    private Context context;
+
     /**
      * Inicialitza la pantalla, carrega el llibre a editar i les dades de suport.
      */
@@ -95,7 +97,9 @@ public class EditBookActivity extends AppCompatActivity {
             request.setAuthor(selectedAuthorObject);
             request.setGenre(selectedGenreObject);
 
-            ApiService api = RetrofitClient.getClient().create(ApiService.class);
+            //ApiService api = RetrofitClient.getClient().create(ApiService.class);
+            ApiService api = RetrofitClient.getClient(context).create(ApiService.class); // ✅
+
             Call<Void> call = api.updateBook("Bearer " + token, bookId, request);
 
             call.enqueue(new Callback<Void>() {
@@ -129,7 +133,8 @@ public class EditBookActivity extends AppCompatActivity {
      * @param id ID del llibre
      */
     private void loadBookDetails(int id) {
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        //ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
         api.getBookById("Bearer " + token, id).enqueue(new Callback<Book>() {
             @Override
             public void onResponse(Call<Book> call, Response<Book> response) {
@@ -205,7 +210,8 @@ public class EditBookActivity extends AppCompatActivity {
      * Carrega la llista d'autors i omple el spinner corresponent.
      */
     private void loadAuthors() {
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        //ApiService api = RetrofitClient.getClient().create(ApiService.class);
+ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
         api.getAuthors("Bearer " + token).enqueue(new Callback<List<Author>>() {
             @Override
             public void onResponse(Call<List<Author>> call, Response<List<Author>> response) {
@@ -230,7 +236,8 @@ public class EditBookActivity extends AppCompatActivity {
      * Carrega la llista de gèneres i omple el spinner corresponent.
      */
     private void loadGenres() {
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        //ApiService api = RetrofitClient.getClient().create(ApiService.class);
+ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
         api.getGenres("Bearer " + token).enqueue(new Callback<List<Genre>>() {
             @Override
             public void onResponse(Call<List<Genre>> call, Response<List<Genre>> response) {

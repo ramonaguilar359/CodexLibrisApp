@@ -50,7 +50,7 @@ public class AuthorsManagementActivity extends AppCompatActivity {
         fabAddAuthor = findViewById(R.id.fabAddAuthor);
 
         recyclerViewAuthors.setLayoutManager(new LinearLayoutManager(this));
-        authorsAdapter = new AuthorAdapter(this, new ArrayList<>(), roleId, token);
+        authorsAdapter = new AuthorAdapter(getApplicationContext(), new ArrayList<>(), roleId, token);
         recyclerViewAuthors.setAdapter(authorsAdapter);
 
         // Mostrar o amagar botó de crear autor segons el rol
@@ -106,7 +106,7 @@ public class AuthorsManagementActivity extends AppCompatActivity {
             return;
         }
 
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        ApiService apiService = RetrofitClient.getClient(getApplicationContext()).create(ApiService.class);
         Call<List<Author>> call = apiService.getAuthors("Bearer " + token);
 
         call.enqueue(new Callback<List<Author>>() {
@@ -129,4 +129,5 @@ public class AuthorsManagementActivity extends AppCompatActivity {
             }
         });
     }
+
 }

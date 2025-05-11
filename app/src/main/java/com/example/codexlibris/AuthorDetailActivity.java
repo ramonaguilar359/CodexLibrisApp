@@ -49,7 +49,8 @@ public class AuthorDetailActivity extends AppCompatActivity {
     }
 
     private void getAuthorDetails(int id) {
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = RetrofitClient.getClient(getApplicationContext()).create(ApiService.class);
+
         Call<Author> call = api.getAuthorById("Bearer " + token, id);
 
         call.enqueue(new Callback<Author>() {

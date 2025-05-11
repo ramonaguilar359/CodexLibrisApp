@@ -21,6 +21,8 @@ public class CreateGenreActivity extends AppCompatActivity {
     private Button btnSaveGenre;
     private String token;
 
+    private Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +49,9 @@ public class CreateGenreActivity extends AppCompatActivity {
 
         GenreRequest request = new GenreRequest(name, description);
 
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        //ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = RetrofitClient.getClient(context).create(ApiService.class); // ✅
+
         Call<Void> call = api.createGenre("Bearer " + token, request);
 
         call.enqueue(new Callback<Void>() {

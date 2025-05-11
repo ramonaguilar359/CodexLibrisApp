@@ -33,6 +33,8 @@ public class GenresManagementActivity extends AppCompatActivity {
     private int roleId;
     private String token;
 
+    private Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +99,8 @@ public class GenresManagementActivity extends AppCompatActivity {
             return;
         }
 
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        //ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+ApiService apiService = RetrofitClient.getClient(context).create(ApiService.class);
         Call<List<Genre>> call = apiService.getGenres("Bearer " + token);
 
         call.enqueue(new Callback<List<Genre>>() {

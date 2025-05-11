@@ -31,6 +31,8 @@ public class CreateEventActivity extends AppCompatActivity {
     private String selectedEndTime;
     private String token;
 
+    private Context context;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,7 +105,9 @@ public class CreateEventActivity extends AppCompatActivity {
 
         EventRequest request = new EventRequest(title, description, location, selectedDateISO, selectedStartTime, selectedEndTime);
 
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        //ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = RetrofitClient.getClient(context).create(ApiService.class); // ✅
+
         Call<Void> call = api.createEvent("Bearer " + token, request);
 
         call.enqueue(new Callback<Void>() {

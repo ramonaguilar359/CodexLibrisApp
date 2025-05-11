@@ -74,7 +74,8 @@ public class BookDetailActivity extends AppCompatActivity {
         int bookId = getIntent().getIntExtra("BOOK_ID", -1);
         Log.d("BookDetail", "ID rebut: " + bookId);
 
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = RetrofitClient.getClient(getApplicationContext()).create(ApiService.class);
+
         Call<Book> call = api.getBookById("Bearer " + token, id);
 
         call.enqueue(new Callback<Book>() {

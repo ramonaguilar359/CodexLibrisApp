@@ -27,6 +27,8 @@ public class EditEventActivity extends AppCompatActivity {
     private String token;
     private String selectedDateISO, selectedStartTime, selectedEndTime;
 
+    private Context context;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +59,8 @@ public class EditEventActivity extends AppCompatActivity {
     }
 
     private void carregarEvent() {
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        //ApiService api = RetrofitClient.getClient().create(ApiService.class);
+ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
         api.getEventById("Bearer " + token, eventId).enqueue(new Callback<Event>() {
             @Override
             public void onResponse(Call<Event> call, Response<Event> response) {
@@ -119,7 +122,8 @@ public class EditEventActivity extends AppCompatActivity {
 
         Event request = new Event(eventId, title, description, location, selectedDateISO, selectedStartTime, selectedEndTime);
 
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        //ApiService api = RetrofitClient.getClient().create(ApiService.class);
+ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
         api.updateEvent("Bearer " + token, eventId, request).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {

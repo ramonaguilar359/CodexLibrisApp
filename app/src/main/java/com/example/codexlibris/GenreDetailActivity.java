@@ -19,6 +19,8 @@ public class GenreDetailActivity extends AppCompatActivity {
     private int genreId;
     private String token;
 
+    private Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +46,8 @@ public class GenreDetailActivity extends AppCompatActivity {
     }
 
     private void carregarDetallGenere(int id) {
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        //ApiService api = RetrofitClient.getClient().create(ApiService.class);
+ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
         Call<Genre> call = api.getGenreById("Bearer " + token, id);
 
         call.enqueue(new Callback<Genre>() {

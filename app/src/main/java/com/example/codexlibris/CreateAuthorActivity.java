@@ -30,6 +30,8 @@ public class CreateAuthorActivity extends AppCompatActivity {
     private String selectedDateISO = null;
     private String token;
 
+    private Context context;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +77,9 @@ public class CreateAuthorActivity extends AppCompatActivity {
 
         AuthorRequest request = new AuthorRequest(name, selectedDateISO, nationality);
 
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        //ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = RetrofitClient.getClient(context).create(ApiService.class); // ✅
+
         Call<Void> call = api.createAuthor("Bearer " + token, request);
 
         call.enqueue(new Callback<Void>() {

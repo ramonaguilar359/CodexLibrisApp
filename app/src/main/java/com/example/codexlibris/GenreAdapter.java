@@ -109,7 +109,9 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreViewHol
             SharedPreferences prefs = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
             String token = prefs.getString("jwt_token", null);
 
-            ApiService api = RetrofitClient.getClient().create(ApiService.class);
+            //ApiService api = RetrofitClient.getClient().create(ApiService.class);
+            ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
+
             Call<Void> call = api.deleteGenre("Bearer " + token, genreId);
 
             call.enqueue(new Callback<Void>() {

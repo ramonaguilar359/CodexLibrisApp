@@ -24,8 +24,8 @@ import retrofit2.Response;
  */
 public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorViewHolder> {
 
+    private Context context;
     private final List<Author> authors;
-    private final Context context;
     private final int roleId;
     private final String token;
 
@@ -111,7 +111,9 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorView
         }
 
         private void deleteAuthor(int authorId, int position) {
-            ApiService api = RetrofitClient.getClient().create(ApiService.class);
+            //ApiService api = RetrofitClient.getClient().create(ApiService.class);
+            ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
+
             Call<Void> call = api.deleteAuthor("Bearer " + token, authorId);
 
             call.enqueue(new Callback<Void>() {

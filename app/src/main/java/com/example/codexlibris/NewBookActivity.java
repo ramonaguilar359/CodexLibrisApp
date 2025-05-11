@@ -34,6 +34,8 @@ public class NewBookActivity extends AppCompatActivity {
 
     private String token;
 
+    private Context context;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +67,9 @@ public class NewBookActivity extends AppCompatActivity {
     }
 
     private void loadAuthors() {
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        // ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = RetrofitClient.getClient(context).create(ApiService.class); // ✅
+
         api.getAuthors("Bearer " + token).enqueue(new Callback<List<Author>>() {
             @Override
             public void onResponse(Call<List<Author>> call, Response<List<Author>> response) {
@@ -106,7 +110,9 @@ public class NewBookActivity extends AppCompatActivity {
     }
 
     private void loadGenres() {
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        //ApiService api = RetrofitClient.getClient().create(ApiService.class);apiService
+        ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
+
         api.getGenres("Bearer " + token).enqueue(new Callback<List<Genre>>() {
             @Override
             public void onResponse(Call<List<Genre>> call, Response<List<Genre>> response) {
@@ -178,7 +184,9 @@ public class NewBookActivity extends AppCompatActivity {
 
         BookRequest request = new BookRequest(title, authorId, isbn, selectedDateISO, genreId, available);
 
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        // ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        ApiService apiService = RetrofitClient.getClient(context).create(ApiService.class); // ✅
+
         Call<Void> call = apiService.createBook("Bearer " + token, request);
 
         call.enqueue(new Callback<Void>() {

@@ -36,6 +36,8 @@ public class EventsManagementActivity extends AppCompatActivity {
     private int roleId;
     private String token;
 
+    private Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +95,8 @@ public class EventsManagementActivity extends AppCompatActivity {
     }
 
     private void carregarEsdeveniments() {
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        //ApiService api = RetrofitClient.getClient().create(ApiService.class);
+ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
         Call<List<Event>> call = api.getEvents("Bearer " + token);
 
         call.enqueue(new Callback<List<Event>>() {

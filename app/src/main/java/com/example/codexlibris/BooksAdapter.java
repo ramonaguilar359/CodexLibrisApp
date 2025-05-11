@@ -34,6 +34,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
     private String token;
     private Context context;
 
+
     /**
      * Constructor que rep la llista de llibres i les dades de sessió.
      *
@@ -170,7 +171,9 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
             SharedPreferences prefs = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
             String token = prefs.getString("jwt_token", null);
 
-            ApiService api = RetrofitClient.getClient().create(ApiService.class);
+            //ApiService api = RetrofitClient.getClient().create(ApiService.class);
+            ApiService api = RetrofitClient.getClient(context).create(ApiService.class); //
+
             Call<Void> call = api.deleteBook("Bearer " + token, bookId);
 
             call.enqueue(new Callback<Void>() {
@@ -214,7 +217,9 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
                         updatedBook.setAuthor(llibre.getAuthor());
                         updatedBook.setGenre(llibre.getGenre());
 
-                        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+                        //ApiService api = RetrofitClient.getClient().create(ApiService.class);
+                        ApiService api = RetrofitClient.getClient(context).create(ApiService.class); // ✅
+
                         Call<Void> call = api.updateBook("Bearer " + token, llibre.getId(), updatedBook);
 
                         call.enqueue(new Callback<Void>() {

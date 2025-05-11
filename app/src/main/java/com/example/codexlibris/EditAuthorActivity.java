@@ -29,6 +29,8 @@ public class EditAuthorActivity extends AppCompatActivity {
     private String token;
     private String selectedDateISO = null;
 
+    private Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +54,9 @@ public class EditAuthorActivity extends AppCompatActivity {
     }
 
     private void loadAuthorDetails(int id) {
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        // ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
+
         api.getAuthorById("Bearer " + token, id).enqueue(new Callback<Author>() {
             @Override
             public void onResponse(Call<Author> call, Response<Author> response) {
@@ -111,7 +115,9 @@ public class EditAuthorActivity extends AppCompatActivity {
         updated.setNationality(nationality);
         updated.setBirth_date(selectedDateISO);
 
-        ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        //ApiService api = RetrofitClient.getClient().create(ApiService.class);
+        ApiService api = RetrofitClient.getClient(context).create(ApiService.class); // ✅
+
         api.updateAuthor("Bearer " + token, authorId, updated).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
