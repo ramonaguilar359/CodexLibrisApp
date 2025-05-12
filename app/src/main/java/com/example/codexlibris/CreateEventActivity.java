@@ -20,6 +20,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Activitat per crear un nou esdeveniment amb data, hora, ubicació i descripció.
+ */
 public class CreateEventActivity extends AppCompatActivity {
 
     private EditText editTitle, editDescription, editLocation;
@@ -58,6 +61,10 @@ public class CreateEventActivity extends AppCompatActivity {
         btnSaveEvent.setOnClickListener(v -> submitEvent());
     }
 
+    /**
+     * Mostra un selector de data perquè l'usuari triï la data de l'esdeveniment.
+     * Desa la data en format ISO (yyyy-MM-dd) i la mostra per pantalla.
+     */
     private void showDatePicker() {
         final Calendar calendar = Calendar.getInstance();
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
@@ -72,6 +79,11 @@ public class CreateEventActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
+    /**
+     * Mostra un selector d'hora per establir l'hora d'inici o final de l'esdeveniment.
+     *
+     * @param isStartTime true si és per establir l’hora d’inici, false si és l’hora de finalització
+     */
     private void showTimePicker(boolean isStartTime) {
         final Calendar calendar = Calendar.getInstance();
         TimePickerDialog timePickerDialog = new TimePickerDialog(this,
@@ -92,6 +104,10 @@ public class CreateEventActivity extends AppCompatActivity {
         timePickerDialog.show();
     }
 
+    /**
+     * Valida les dades introduïdes per l’usuari i envia la petició de creació d’esdeveniment.
+     * En cas d'èxit, retorna a l'activitat anterior amb un missatge d'èxit.
+     */
     private void submitEvent() {
         String title = editTitle.getText().toString().trim();
         String description = editDescription.getText().toString().trim();
@@ -106,7 +122,7 @@ public class CreateEventActivity extends AppCompatActivity {
         EventRequest request = new EventRequest(title, description, location, selectedDateISO, selectedStartTime, selectedEndTime);
 
         //ApiService api = RetrofitClient.getClient().create(ApiService.class);
-        ApiService api = RetrofitClient.getClient(context).create(ApiService.class); // ✅
+        ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
 
         Call<Void> call = api.createEvent("Bearer " + token, request);
 

@@ -11,8 +11,6 @@ import android.widget.*;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -21,6 +19,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Activitat per crear un nou autor. Permet introduir el nom, la nacionalitat i la data de naixement.
+ */
 public class CreateAuthorActivity extends AppCompatActivity {
 
     private EditText editName, editNationality;
@@ -51,6 +52,10 @@ public class CreateAuthorActivity extends AppCompatActivity {
         btnSaveAuthor.setOnClickListener(v -> submitAuthor());
     }
 
+    /**
+     * Mostra un DatePicker perquè l’usuari seleccioni una data de naixement.
+     * Guarda la data seleccionada en format ISO i la mostra formatada per pantalla.
+     */
     private void showDatePicker() {
         final Calendar calendar = Calendar.getInstance();
         DatePickerDialog datePickerDialog = new DatePickerDialog(
@@ -66,6 +71,10 @@ public class CreateAuthorActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
+    /**
+     * Valida les dades introduïdes i envia la petició per crear l'autor.
+     * Si la resposta és exitosa, retorna el control amb un missatge d'èxit.
+     */
     private void submitAuthor() {
         String name = editName.getText().toString().trim();
         String nationality = editNationality.getText().toString().trim();
@@ -78,7 +87,7 @@ public class CreateAuthorActivity extends AppCompatActivity {
         AuthorRequest request = new AuthorRequest(name, selectedDateISO, nationality);
 
         //ApiService api = RetrofitClient.getClient().create(ApiService.class);
-        ApiService api = RetrofitClient.getClient(context).create(ApiService.class); // ✅
+        ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
 
         Call<Void> call = api.createAuthor("Bearer " + token, request);
 

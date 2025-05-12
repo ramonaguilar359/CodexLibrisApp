@@ -21,6 +21,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Adaptador per mostrar una llista de gèneres amb accions per a administradors.
+ * Permet visualitzar, editar i eliminar gèneres segons el rol de l'usuari.
+ */
 public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreViewHolder> {
 
     private List<Genre> genres;
@@ -28,6 +32,13 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreViewHol
     private String token;
     private Context context;
 
+    /**
+     * Constructor de l'adaptador.
+     * @param context context de l'aplicació
+     * @param genres llista de gèneres
+     * @param roleId identificador del rol de l'usuari
+     * @param token token d'autenticació JWT
+     */
     public GenreAdapter(Context context, List<Genre> genres, int roleId, String token) {
         this.context = context;
         this.genres = genres;
@@ -53,11 +64,18 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreViewHol
         return genres.size();
     }
 
+    /**
+     * Actualitza la llista de gèneres i refresca la vista.
+     * @param newGenres nova llista de gèneres
+     */
     public void setGenres(List<Genre> newGenres) {
         this.genres = newGenres;
         notifyDataSetChanged();
     }
 
+    /**
+     * Classe interna per gestionar cada element de la llista.
+     */
     class GenreViewHolder extends RecyclerView.ViewHolder {
         TextView textName;
         Button btnView, btnEdit, btnDelete;
@@ -70,6 +88,10 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreViewHol
             btnDelete = itemView.findViewById(R.id.btnDelete);
         }
 
+        /**
+         * Assigna les dades del gènere a la vista i defineix el comportament dels botons.
+         * @param genre objecte de tipus {@link Genre}
+         */
         public void bind(final Genre genre) {
             textName.setText(genre.getName());
 
@@ -105,11 +127,15 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreViewHol
             }
         }
 
+        /**
+         * Elimina un gènere del servidor i de la llista.
+         * @param genreId identificador del gènere
+         * @param position posició a la llista
+         */
         private void deleteGenre(int genreId, int position) {
             SharedPreferences prefs = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
             String token = prefs.getString("jwt_token", null);
 
-            //ApiService api = RetrofitClient.getClient().create(ApiService.class);
             ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
 
             Call<Void> call = api.deleteGenre("Bearer " + token, genreId);

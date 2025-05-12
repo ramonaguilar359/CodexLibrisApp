@@ -15,6 +15,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Activitat per editar un gènere existent.
+ */
 public class EditGenreActivity extends AppCompatActivity {
 
     private EditText editName, editDescription;
@@ -24,6 +27,9 @@ public class EditGenreActivity extends AppCompatActivity {
 
     private Context context;
 
+    /**
+     * Inicialitza la pantalla i carrega les dades del gènere.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,9 +54,13 @@ public class EditGenreActivity extends AppCompatActivity {
         btnUpdateGenre.setOnClickListener(v -> actualitzarGenere());
     }
 
+    /**
+     * Carrega les dades del gènere des del servidor.
+     *
+     * @param id ID del gènere a editar
+     */
     private void carregarDadesDelGenere(int id) {
-        //ApiService api = RetrofitClient.getClient().create(ApiService.class);
-ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
+        ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
         api.getGenreById("Bearer " + token, id).enqueue(new Callback<Genre>() {
             @Override
             public void onResponse(Call<Genre> call, Response<Genre> response) {
@@ -71,6 +81,9 @@ ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
         });
     }
 
+    /**
+     * Valida les dades introduïdes i envia la petició d’actualització del gènere.
+     */
     private void actualitzarGenere() {
         String name = editName.getText().toString().trim();
         String description = editDescription.getText().toString().trim();
@@ -82,8 +95,7 @@ ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
 
         GenreRequest request = new GenreRequest(name, description);
 
-        //ApiService api = RetrofitClient.getClient().create(ApiService.class);
-ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
+        ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
         Call<Void> call = api.updateGenre("Bearer " + token, genreId, request);
 
         call.enqueue(new Callback<Void>() {

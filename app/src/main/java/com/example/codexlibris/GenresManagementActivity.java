@@ -24,6 +24,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Pantalla principal per gestionar els gèneres disponibles.
+ */
 public class GenresManagementActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewGenres;
@@ -92,6 +95,12 @@ public class GenresManagementActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Carrega la llista de gèneres des del servidor i l'assigna a l'adaptador.
+     *
+     * Comprova si hi ha token disponible i realitza una crida a l'API per obtenir
+     * els gèneres. Mostra missatges d'error si la càrrega falla.
+     */
     private void carregarGenres() {
         token = sharedPreferences.getString("jwt_token", null);
         if (token == null) {
@@ -100,7 +109,7 @@ public class GenresManagementActivity extends AppCompatActivity {
         }
 
         //ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-ApiService apiService = RetrofitClient.getClient(context).create(ApiService.class);
+        ApiService apiService = RetrofitClient.getClient(context).create(ApiService.class);
         Call<List<Genre>> call = apiService.getGenres("Bearer " + token);
 
         call.enqueue(new Callback<List<Genre>>() {

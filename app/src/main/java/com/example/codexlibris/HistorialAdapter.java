@@ -10,10 +10,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+/**
+ * Adaptador per mostrar una llista d'objectes {@link LibroReservado} en un RecyclerView.
+ * S'utilitza a la vista de l'historial de llibres llegits/reservats per un usuari.
+ */
 public class HistorialAdapter extends RecyclerView.Adapter<HistorialAdapter.LibroViewHolder> {
 
     private List<LibroReservado> llibres;
 
+    /**
+     * Constructor de l'adaptador.
+     *
+     * @param llibres Llista de llibres reservats que es mostraran
+     */
     public HistorialAdapter(List<LibroReservado> llibres) {
         this.llibres = llibres;
     }
@@ -36,13 +45,20 @@ public class HistorialAdapter extends RecyclerView.Adapter<HistorialAdapter.Libr
         return llibres.size();
     }
 
+    /**
+     * ViewHolder per mostrar un llibre reservat a la llista.
+     */
     static class LibroViewHolder extends RecyclerView.ViewHolder {
         TextView textView;
 
+        /**
+         * Constructor del ViewHolder.
+         *
+         * @param itemView la vista que representa un ítem individual
+         */
         public LibroViewHolder(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(android.R.id.text1);
         }
     }
 }
-

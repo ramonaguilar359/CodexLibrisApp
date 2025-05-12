@@ -15,6 +15,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Activitat per crear un nou gènere literari.
+ */
 public class CreateGenreActivity extends AppCompatActivity {
 
     private EditText editName, editDescription;
@@ -38,6 +41,10 @@ public class CreateGenreActivity extends AppCompatActivity {
         btnSaveGenre.setOnClickListener(v -> submitGenre());
     }
 
+    /**
+     * Valida les dades del formulari i envia la petició per crear un gènere.
+     * Mostra un missatge d'èxit o error segons la resposta del servidor.
+     */
     private void submitGenre() {
         String name = editName.getText().toString().trim();
         String description = editDescription.getText().toString().trim();
@@ -50,7 +57,7 @@ public class CreateGenreActivity extends AppCompatActivity {
         GenreRequest request = new GenreRequest(name, description);
 
         //ApiService api = RetrofitClient.getClient().create(ApiService.class);
-        ApiService api = RetrofitClient.getClient(context).create(ApiService.class); // ✅
+        ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
 
         Call<Void> call = api.createGenre("Bearer " + token, request);
 

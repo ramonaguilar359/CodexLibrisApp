@@ -130,6 +130,7 @@ public class EditBookActivity extends AppCompatActivity {
 
     /**
      * Carrega les dades del llibre que es vol editar.
+     *
      * @param id ID del llibre
      */
     private void loadBookDetails(int id) {
@@ -160,6 +161,8 @@ public class EditBookActivity extends AppCompatActivity {
 
     /**
      * Omple els camps de formulari amb les dades del llibre.
+     *
+     * @param book llibre rebut del servidor
      */
     private void fillFormWithBook(Book book) {
         editTitle.setText(book.getTitle());
@@ -210,8 +213,7 @@ public class EditBookActivity extends AppCompatActivity {
      * Carrega la llista d'autors i omple el spinner corresponent.
      */
     private void loadAuthors() {
-        //ApiService api = RetrofitClient.getClient().create(ApiService.class);
-ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
+        ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
         api.getAuthors("Bearer " + token).enqueue(new Callback<List<Author>>() {
             @Override
             public void onResponse(Call<List<Author>> call, Response<List<Author>> response) {
@@ -236,8 +238,7 @@ ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
      * Carrega la llista de gèneres i omple el spinner corresponent.
      */
     private void loadGenres() {
-        //ApiService api = RetrofitClient.getClient().create(ApiService.class);
-ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
+        ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
         api.getGenres("Bearer " + token).enqueue(new Callback<List<Genre>>() {
             @Override
             public void onResponse(Call<List<Genre>> call, Response<List<Genre>> response) {

@@ -23,16 +23,16 @@ import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-
 import okhttp3.Response;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
-
-
+/**
+ * Activitat que mostra l'historial de llibres llegits per l'usuari
+ * i ofereix recomanacions literàries generades amb l'API de ChatGPT.
+ */
 public class HistorialReservasActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
@@ -46,7 +46,10 @@ public class HistorialReservasActivity extends AppCompatActivity {
     private static final String OPENAI_URL = "https://api.openai.com/v1/chat/completions";
     private static final String OPENAI_MODEL = "gpt-3.5-turbo";
 
-
+    /**
+     * Inicialitza la vista, recupera l'historial de llibres
+     * i configura el botó per generar recomanacions.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,9 +59,7 @@ public class HistorialReservasActivity extends AppCompatActivity {
         btnRecomIAnacions = findViewById(R.id.btnRecomIAnacions);
 
         sharedPreferences = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
-        int userId = sharedPreferences.getInt("user_id", -1);  // -1 és valor per defecte si no existeix
-
-        //userId = 2; // test
+        int userId = sharedPreferences.getInt("user_id", -1);
 
         Log.d("Historial", "userId recuperat: " + userId);
 
@@ -68,15 +69,10 @@ public class HistorialReservasActivity extends AppCompatActivity {
             return;
         }
 
-
-
-
-
         Map<Integer, List<LibroReservado>> historics = DatosSimulados.obtenerHistoriales();
         historial = historics.getOrDefault(userId, new java.util.ArrayList<>());
 
         Log.d("Historial", "Llibres carregats: " + historial.size());
-
 
         adapter = new HistorialAdapter(historial);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -97,17 +93,19 @@ public class HistorialReservasActivity extends AppCompatActivity {
 
                 prompt.append("\nRecomana 3 llibres nous d’autors diferents però amb temàtiques similars. Només la llista.");
 
-                // Crida a la IA en segon pla
                 ferRecomanacioIA(prompt.toString());
-
             }
         });
     }
 
+    /**
+     * Envia una petició a l'API de ChatGPT per generar recomanacions literàries.
+     *
+     * @param prompt el text que es passa a la IA per generar recomanacions
+     */
     private void ferRecomanacioIA(String prompt) {
         OkHttpClient client = new OkHttpClient();
 
-        // ✅ Construim el JSON correctament
         JSONObject message = new JSONObject();
         JSONObject payload = new JSONObject();
         JSONArray messages = new JSONArray();
@@ -174,8 +172,12 @@ public class HistorialReservasActivity extends AppCompatActivity {
         });
     }
 
-
-
+    /**
+     * Extreu el contingut útil de la resposta JSON de ChatGPT.
+     *
+     * @param json resposta JSON completa de l'API
+     * @return text de recomanacions generat per la IA
+     */
     private String parseRespostaChatGPT(String json) {
         try {
             JSONObject obj = new JSONObject(json);
@@ -189,6 +191,11 @@ public class HistorialReservasActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Mostra les recomanacions en un diàleg emergent.
+     *
+     * @param text recomanacions generades
+     */
     private void mostrarRecomanacio(String text) {
         btnRecomIAnacions.setEnabled(true);
         btnRecomIAnacions.setText("RecomIAnacions");
@@ -199,8 +206,4 @@ public class HistorialReservasActivity extends AppCompatActivity {
                 .setPositiveButton("Tancar", null)
                 .show();
     }
-
-
-
 }
-

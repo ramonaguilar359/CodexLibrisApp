@@ -101,52 +101,147 @@ public interface ApiService {
             @Path("id") int id
     );
 
+    /**
+     * Obté un autor pel seu identificador únic.
+     *
+     * @param token token JWT per autorització
+     * @param id identificador de l'autor
+     * @return objecte Author si existeix
+     */
     @GET("/authors/{id}")
     Call<Author> getAuthorById(@Header("Authorization") String token, @Path("id") int id);
 
+    /**
+     * Crea un nou autor amb les dades proporcionades.
+     *
+     * @param token token JWT per autorització
+     * @param authorRequest dades de l'autor a crear
+     * @return resposta buida en cas d'èxit
+     */
     @POST("authors")
     Call<Void> createAuthor(@Header("Authorization") String token, @Body AuthorRequest authorRequest);
 
+    /**
+     * Actualitza les dades d'un autor existent.
+     *
+     * @param token token JWT per autorització
+     * @param id identificador de l'autor a actualitzar
+     * @param author objecte Author amb les dades noves
+     * @return resposta buida en cas d'èxit
+     */
     @PUT("/authors/{id}")
     Call<Void> updateAuthor(@Header("Authorization") String token, @Path("id") int id, @Body Author author);
 
+    /**
+     * Elimina un autor existent pel seu ID.
+     *
+     * @param token token JWT per autorització
+     * @param id identificador de l'autor a eliminar
+     * @return resposta buida en cas d'èxit
+     */
     @DELETE("/authors/{id}")
     Call<Void> deleteAuthor(@Header("Authorization") String token, @Path("id") int id);
 
+    /**
+     * Obté la llista de gèneres disponibles.
+     *
+     * @param token token JWT per autorització
+     * @return llista d'objectes Genre
+     */
     @GET("genres")
     Call<List<Genre>> getGenres(@Header("Authorization") String token);
 
+    /**
+     * Obté un gènere pel seu identificador.
+     *
+     * @param token token JWT per autorització
+     * @param id identificador del gènere
+     * @return objecte Genre si existeix
+     */
     @GET("genres/{id}")
     Call<Genre> getGenreById(@Header("Authorization") String token, @Path("id") int id);
 
+    /**
+     * Crea un nou gènere.
+     *
+     * @param token token JWT per autorització
+     * @param genre objecte amb el nom i descripció del gènere
+     * @return resposta buida en cas d'èxit
+     */
     @POST("genres")
     Call<Void> createGenre(@Header("Authorization") String token, @Body GenreRequest genre);
 
+    /**
+     * Actualitza un gènere existent.
+     *
+     * @param token token JWT per autorització
+     * @param id identificador del gènere a modificar
+     * @param genre dades noves del gènere
+     * @return resposta buida en cas d'èxit
+     */
     @PUT("genres/{id}")
     Call<Void> updateGenre(@Header("Authorization") String token, @Path("id") int id, @Body GenreRequest genre);
 
+    /**
+     * Elimina un gènere pel seu ID.
+     *
+     * @param token token JWT per autorització
+     * @param id identificador del gènere a eliminar
+     * @return resposta buida en cas d'èxit
+     */
     @DELETE("genres/{id}")
     Call<Void> deleteGenre(@Header("Authorization") String token, @Path("id") int id);
 
-    // Obtenir tots els esdeveniments
+    /**
+     * Obté la llista d'esdeveniments.
+     *
+     * @param authHeader capçalera d'autenticació amb el token JWT
+     * @return llista d'objectes Event
+     */
     @GET("/events")
     Call<List<Event>> getEvents(@Header("Authorization") String authHeader);
 
-    // Obtenir un esdeveniment per ID
+    /**
+     * Obté un esdeveniment pel seu ID.
+     *
+     * @param authHeader capçalera d'autenticació amb el token JWT
+     * @param id identificador de l'esdeveniment
+     * @return objecte Event si existeix
+     */
     @GET("/events/{id}")
     Call<Event> getEventById(@Header("Authorization") String authHeader, @Path("id") int id);
 
-    // Crear un nou esdeveniment
+    /**
+     * Crea un nou esdeveniment.
+     *
+     * @param authHeader capçalera d'autenticació amb el token JWT
+     * @param request objecte amb les dades de l'esdeveniment a crear
+     * @return resposta buida en cas d'èxit
+     */
     @POST("/events")
     Call<Void> createEvent(@Header("Authorization") String authHeader, @Body EventRequest request);
 
-    // Actualitzar un esdeveniment existent
+    /**
+     * Actualitza un esdeveniment existent.
+     *
+     * @param authHeader capçalera d'autenticació amb el token JWT
+     * @param id identificador de l'esdeveniment
+     * @param request objecte amb les noves dades
+     * @return resposta buida en cas d'èxit
+     */
     @PUT("/events/{id}")
     Call<Void> updateEvent(@Header("Authorization") String authHeader, @Path("id") int id, @Body Event request);
 
-    // Eliminar un esdeveniment
+    /**
+     * Elimina un esdeveniment.
+     *
+     * @param authHeader capçalera d'autenticació amb el token JWT
+     * @param id identificador de l'esdeveniment
+     * @return resposta buida en cas d'èxit
+     */
     @DELETE("/events/{id}")
     Call<Void> deleteEvent(@Header("Authorization") String authHeader, @Path("id") int id);
+
 
 }
 

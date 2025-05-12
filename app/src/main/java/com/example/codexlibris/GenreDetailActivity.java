@@ -13,6 +13,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Pantalla que mostra el detall d’un gènere.
+ * Recupera la informació des del servidor a partir de l'ID del gènere passat per intent.
+ */
 public class GenreDetailActivity extends AppCompatActivity {
 
     private TextView textName, textDescription, textCreatedAt, textUpdatedAt;
@@ -21,6 +25,10 @@ public class GenreDetailActivity extends AppCompatActivity {
 
     private Context context;
 
+    /**
+     * Inicialitza la vista i inicia la càrrega del gènere.
+     * @param savedInstanceState estat anterior de l'activitat, si existeix
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,14 +48,21 @@ public class GenreDetailActivity extends AppCompatActivity {
         carregarDetallGenere(genreId);
     }
 
+    /**
+     * Inicialitza les referències als elements de la interfície.
+     */
     private void initViews() {
         textName = findViewById(R.id.textName);
         textDescription = findViewById(R.id.textDescription);
     }
 
+    /**
+     * Fa una crida a l'API per obtenir el detall del gènere amb el seu ID.
+     * @param id identificador del gènere
+     */
     private void carregarDetallGenere(int id) {
         //ApiService api = RetrofitClient.getClient().create(ApiService.class);
-ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
+        ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
         Call<Genre> call = api.getGenreById("Bearer " + token, id);
 
         call.enqueue(new Callback<Genre>() {
@@ -69,6 +84,10 @@ ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
         });
     }
 
+    /**
+     * Mostra la informació del gènere a la pantalla.
+     * @param genre objecte {@link Genre} amb les dades a mostrar
+     */
     private void mostrarDetall(Genre genre) {
         textName.setText(genre.getName());
         textDescription.setText(genre.getDescription());

@@ -42,12 +42,20 @@ public class AuthorDetailActivity extends AppCompatActivity {
         getAuthorDetails(authorId);
     }
 
+    /**
+     * Inicialitza les vistes de la interfície amb els components del layout.
+     */
     private void initViews() {
         textName = findViewById(R.id.textName);
         textBirthDate = findViewById(R.id.textBirthDate);
         textNationality = findViewById(R.id.textNationality);
     }
 
+    /**
+     * Obté els detalls de l'autor des del servidor mitjançant el seu ID.
+     *
+     * @param id identificador únic de l'autor
+     */
     private void getAuthorDetails(int id) {
         ApiService api = RetrofitClient.getClient(getApplicationContext()).create(ApiService.class);
 
@@ -73,10 +81,14 @@ public class AuthorDetailActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Mostra les dades de l'autor a la interfície.
+     *
+     * @param author objecte Author amb les dades a visualitzar
+     */
     private void displayAuthorDetails(Author author) {
         textName.setText(author.getName());
         textBirthDate.setText("Naixement: " + author.getBirth_date());
         textNationality.setText("Nacionalitat: " + author.getNationality());
     }
 }
-

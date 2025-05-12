@@ -53,6 +53,11 @@ public class EditAuthorActivity extends AppCompatActivity {
         loadAuthorDetails(authorId);
     }
 
+    /**
+     * Carrega les dades de l'autor des del servidor i emplena el formulari.
+     *
+     * @param id identificador de l'autor a consultar
+     */
     private void loadAuthorDetails(int id) {
         // ApiService api = RetrofitClient.getClient().create(ApiService.class);
         ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
@@ -76,6 +81,11 @@ public class EditAuthorActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Emplena el formulari amb les dades rebudes de l'autor.
+     *
+     * @param author objecte Author amb les dades actuals
+     */
     private void fillFormWithAuthor(Author author) {
         editName.setText(author.getName());
         editNationality.setText(author.getNationality());
@@ -86,6 +96,9 @@ public class EditAuthorActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Mostra un selector de data i desa la selecció en format ISO.
+     */
     private void showDatePicker() {
         final Calendar calendar = Calendar.getInstance();
         DatePickerDialog dialog = new DatePickerDialog(this,
@@ -100,6 +113,9 @@ public class EditAuthorActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Envia una petició per actualitzar l'autor amb les dades modificades.
+     */
     private void updateAuthor() {
         String name = editName.getText().toString().trim();
         String nationality = editNationality.getText().toString().trim();
@@ -116,7 +132,7 @@ public class EditAuthorActivity extends AppCompatActivity {
         updated.setBirth_date(selectedDateISO);
 
         //ApiService api = RetrofitClient.getClient().create(ApiService.class);
-        ApiService api = RetrofitClient.getClient(context).create(ApiService.class); // ✅
+        ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
 
         api.updateAuthor("Bearer " + token, authorId, updated).enqueue(new Callback<Void>() {
             @Override

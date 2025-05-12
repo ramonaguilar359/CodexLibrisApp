@@ -26,6 +26,8 @@ import retrofit2.Response;
 
 /**
  * Pantalla principal per gestionar els esdeveniments disponibles.
+ *
+ * Mostra la llista d'esdeveniments i permet afegir-ne, editar-ne o eliminar-ne si l'usuari té rol d'administració.
  */
 public class EventsManagementActivity extends AppCompatActivity {
 
@@ -38,6 +40,9 @@ public class EventsManagementActivity extends AppCompatActivity {
 
     private Context context;
 
+    /**
+     * Inicialitza la vista, recupera dades de sessió i carrega els esdeveniments.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,12 +77,18 @@ public class EventsManagementActivity extends AppCompatActivity {
         carregarEsdeveniments();
     }
 
+    /**
+     * Torna a carregar els esdeveniments quan l'activitat es reprèn.
+     */
     @Override
     protected void onResume() {
         super.onResume();
         carregarEsdeveniments();
     }
 
+    /**
+     * Mostra un diàleg de confirmació si es torna d'una activitat amb èxit.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -94,9 +105,11 @@ public class EventsManagementActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Carrega la llista d’esdeveniments des del servidor i l’assigna a l’adaptador.
+     */
     private void carregarEsdeveniments() {
-        //ApiService api = RetrofitClient.getClient().create(ApiService.class);
-ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
+        ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
         Call<List<Event>> call = api.getEvents("Bearer " + token);
 
         call.enqueue(new Callback<List<Event>>() {

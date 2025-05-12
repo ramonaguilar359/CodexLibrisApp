@@ -17,6 +17,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Activitat per editar un esdeveniment existent.
+ */
 public class EditEventActivity extends AppCompatActivity {
 
     private EditText editTitle, editDescription, editLocation;
@@ -29,6 +32,9 @@ public class EditEventActivity extends AppCompatActivity {
 
     private Context context;
 
+    /**
+     * Inicialitza la vista, assigna accions als botons i carrega les dades de l'esdeveniment.
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,9 +64,11 @@ public class EditEventActivity extends AppCompatActivity {
         carregarEvent();
     }
 
+    /**
+     * Carrega les dades de l'esdeveniment des del servidor i omple els camps.
+     */
     private void carregarEvent() {
-        //ApiService api = RetrofitClient.getClient().create(ApiService.class);
-ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
+        ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
         api.getEventById("Bearer " + token, eventId).enqueue(new Callback<Event>() {
             @Override
             public void onResponse(Call<Event> call, Response<Event> response) {
@@ -87,6 +95,9 @@ ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
         });
     }
 
+    /**
+     * Mostra un selector de data per establir la nova data de l'esdeveniment.
+     */
     private void showDatePicker() {
         Calendar c = Calendar.getInstance();
         new DatePickerDialog(this, (view, year, month, day) -> {
@@ -95,6 +106,11 @@ ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
         }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
     }
 
+    /**
+     * Mostra un selector d'hora per establir l'hora d'inici o de finalització.
+     *
+     * @param isStart true si s'està seleccionant l'hora d'inici, false si és la de fi
+     */
     private void showTimePicker(boolean isStart) {
         Calendar c = Calendar.getInstance();
         new TimePickerDialog(this, (view, hour, minute) -> {
@@ -109,6 +125,9 @@ ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
         }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), true).show();
     }
 
+    /**
+     * Envia la petició per actualitzar l'esdeveniment amb les dades modificades.
+     */
     private void submitChanges() {
         String title = editTitle.getText().toString().trim();
         String description = editDescription.getText().toString().trim();
@@ -122,8 +141,7 @@ ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
 
         Event request = new Event(eventId, title, description, location, selectedDateISO, selectedStartTime, selectedEndTime);
 
-        //ApiService api = RetrofitClient.getClient().create(ApiService.class);
-ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
+        ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
         api.updateEvent("Bearer " + token, eventId, request).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {

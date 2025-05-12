@@ -53,6 +53,11 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorView
         return authors.size();
     }
 
+    /**
+     * Actualitza la llista d'autors mostrada a l'adaptador.
+     *
+     * @param newAuthors nova llista d'autors per mostrar
+     */
     public void setAuthors(List<Author> newAuthors) {
         authors.clear();
         authors.addAll(newAuthors);
@@ -71,6 +76,11 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorView
             btnDelete = itemView.findViewById(R.id.btnDelete);
         }
 
+        /**
+         * Associa les dades d'un autor amb les vistes de l'element de la llista.
+         *
+         * @param author objecte Author a mostrar
+         */
         public void bind(final Author author) {
             nameTextView.setText(author.getName());
 
@@ -112,8 +122,13 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.AuthorView
             }
         }
 
+        /**
+         * Envia una sol·licitud per eliminar un autor i actualitza la vista si té èxit.
+         *
+         * @param authorId identificador de l'autor a eliminar
+         * @param position posició de l'autor a la llista
+         */
         private void deleteAuthor(int authorId, int position) {
-            //ApiService api = RetrofitClient.getClient().create(ApiService.class);
             ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
 
             Call<Void> call = api.deleteAuthor("Bearer " + token, authorId);

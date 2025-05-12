@@ -24,6 +24,11 @@ public class EventDetailActivity extends AppCompatActivity {
 
     private Context context;
 
+    /**
+     * Inicialitza l’activitat i carrega les dades de l’esdeveniment.
+     *
+     * Recupera el token i l'ID de l'esdeveniment des de l'intent.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +49,9 @@ public class EventDetailActivity extends AppCompatActivity {
         loadEventDetails(eventId);
     }
 
+    /**
+     * Assigna les vistes de la interfície gràfica.
+     */
     private void initViews() {
         textTitle = findViewById(R.id.textEventTitle);
         textDescription = findViewById(R.id.textEventDescription);
@@ -53,9 +61,13 @@ public class EventDetailActivity extends AppCompatActivity {
         textEndTime = findViewById(R.id.textEndTime);
     }
 
+    /**
+     * Realitza la crida a l'API per obtenir els detalls de l’esdeveniment.
+     *
+     * @param id identificador de l’esdeveniment
+     */
     private void loadEventDetails(int id) {
-        //ApiService api = RetrofitClient.getClient().create(ApiService.class);
-ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
+        ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
         Call<Event> call = api.getEventById("Bearer " + token, id);
 
         call.enqueue(new Callback<Event>() {
@@ -77,6 +89,11 @@ ApiService api = RetrofitClient.getClient(context).create(ApiService.class);
         });
     }
 
+    /**
+     * Mostra a la pantalla les dades de l’esdeveniment rebut.
+     *
+     * @param event objecte Event amb les dades a mostrar
+     */
     private void displayEvent(Event event) {
         textTitle.setText(event.getTitle());
         textDescription.setText("Descripció: " + event.getDescription());

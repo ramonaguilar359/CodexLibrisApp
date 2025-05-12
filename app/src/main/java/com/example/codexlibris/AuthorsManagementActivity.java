@@ -74,12 +74,22 @@ public class AuthorsManagementActivity extends AppCompatActivity {
         carregarAutors();
     }
 
+    /**
+     * Es torna a cridar carregarAutors quan l'activitat torna a estar visible.
+     */
     @Override
     protected void onResume() {
         super.onResume();
         carregarAutors();
     }
 
+    /**
+     * Gestiona el resultat retornat per l'activitat de creació d'autor.
+     *
+     * @param requestCode codi de sol·licitud
+     * @param resultCode codi de resultat retornat
+     * @param data dades retornades
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
