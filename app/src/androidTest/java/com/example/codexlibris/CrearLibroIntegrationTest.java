@@ -10,12 +10,16 @@ import retrofit2.Response;
 
 import static org.junit.Assert.*;
 
+import android.content.Context;
+
 /**
  * Proves d'integració relacionades amb la creació de llibres.
  * S'utilitza una API REST protegida amb autenticació JWT.
  */
 @RunWith(AndroidJUnit4.class)
 public class CrearLibroIntegrationTest {
+
+    private Context context;
 
     private ApiService apiService;
 
@@ -24,7 +28,7 @@ public class CrearLibroIntegrationTest {
      */
     @Before
     public void setup() {
-        apiService = RetrofitClient.getClient().create(ApiService.class);
+        apiService = RetrofitClient.getClient(context).create(ApiService.class);
     }
 
     /**

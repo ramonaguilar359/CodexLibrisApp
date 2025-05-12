@@ -119,7 +119,7 @@ public class BooksManagementActivity extends AppCompatActivity {
         }
 
         //ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-        ApiService apiService = RetrofitClient.getClient(context).create(ApiService.class); // ✅
+        ApiService apiService = RetrofitClient.getClient(context).create(ApiService.class);
 
 
         Log.d("BooksManagement", "Cridant a getBooks amb token: Bearer " + token);

@@ -10,15 +10,19 @@ import retrofit2.Response;
 
 import static org.junit.Assert.*;
 
+import android.content.Context;
+
 @RunWith(AndroidJUnit4.class)
 public class LoginIntegrationTest {
 
     private ApiService apiService;
 
+    private Context context;
+
     @Before
     public void setup() {
         // Usamos el RetrofitClient ya configurado para conectarnos al backend
-        apiService = RetrofitClient.getClient().create(ApiService.class);
+        apiService = apiService = RetrofitClient.getClient(context).create(ApiService.class);
     }
 
     @Test

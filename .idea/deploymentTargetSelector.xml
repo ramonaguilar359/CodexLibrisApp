@@ -13,13 +13,16 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="LoginIntegrationTest">
+      <SelectionState runConfigName="AutorCrudIntegrationTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="CrearLibroIntegrationTest">
+      <SelectionState runConfigName="EsdevenimentCrudIntegrationTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="testReservarLlibreExistent">
+      <SelectionState runConfigName="GenereCrudIntegrationTest">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="OpenAIPromptGenerationTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

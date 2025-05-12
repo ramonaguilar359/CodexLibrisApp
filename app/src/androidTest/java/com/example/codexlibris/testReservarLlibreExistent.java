@@ -10,6 +10,8 @@ import retrofit2.Response;
 
 import static org.junit.Assert.*;
 
+import android.content.Context;
+
 /**
  * Proves d'integració relacionades amb la reserva de llibres.
  * Es comprova el comportament del backend davant peticions amb i sense autenticació.
@@ -19,12 +21,14 @@ public class testReservarLlibreExistent {
 
     private ApiService apiService;
 
+    private Context context;
+
     /**
      * Inicialitza el client Retrofit abans de cada prova.
      */
     @Before
     public void setup() {
-        apiService = RetrofitClient.getClient().create(ApiService.class);
+        apiService = apiService = RetrofitClient.getClient(context).create(ApiService.class);
     }
 
     /**
